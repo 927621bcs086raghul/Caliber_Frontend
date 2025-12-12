@@ -7,17 +7,19 @@
 
 .upload-header {
   position: sticky;
+  display: flex;
   top: 0;
   z-index: 50;
   background-color: #ffffff;
   border-bottom: 1px solid #e5e0e0;
-  padding: 8px 16px;
+
 }
 
 .upload-header-inner {
-  max-width: 1440px;
-  margin: 0 auto;
+  max-width: 142F0px;
+  width: -webkit-fill-available;
   display: flex;
+  margin: 0 auto;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -54,11 +56,16 @@
   display: none;
   width: 320px;
 }
-
+.upload-search-wrapper .ant-input-affix-wrapper {
+  border-radius: 999px;
+  border: none;
+    background-color: #f8f6f6;
+    color: #977778;
+}
 .upload-search-input .ant-input-affix-wrapper {
   border-radius: 999px;
-  background-color: #f4f0f0;
   border: none;
+    
 }
 
 .upload-search-input .ant-input-affix-wrapper:hover,
@@ -101,7 +108,7 @@
 }
 
 .upload-main-inner {
-  max-width: 1200px;
+  max-width: 1420px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

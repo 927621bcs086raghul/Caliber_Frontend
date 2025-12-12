@@ -3,20 +3,28 @@ import {
     CloseOutlined,
     CloudUploadOutlined,
     EditOutlined,
-    SearchOutlined,
     VideoCameraOutlined
 } from '@ant-design/icons'
 import { Avatar, Button, Form, Input, Layout, Progress, Typography, Upload } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import './VideoUpload.css'
+import { resetVideoUploadState, videoUploadRequest } from './videoUploadSlice'
 
 const { Header, Content } = Layout
 const { Title, Text } = Typography
 const { Dragger } = Upload
 
 function VideoUpload() {
+  const [form] = Form.useForm()
   const [uploadInfo, setUploadInfo] = useState(null)
   const [fileList, setFileList] = useState([])
+  const [thumbnailFile, setThumbnailFile] = useState(null)
+
+  const dispatch = useDispatch()
+  const { loading, success } = useSelector((state) => state.videoUpload || {})
+  const navigate = useNavigate()
 
   const handleUploadChange = (info) => {
     let newFileList = [...info.fileList]
@@ -44,6 +52,39 @@ function VideoUpload() {
     })
   }
 
+  const handleThumbnailChange = (info) => {
+    const file = info.file.originFileObj || info.file
+    setThumbnailFile(file || null)
+  }
+
+  const handlePublish = (values) => {
+    if (!fileList.length) {
+      // No video selected; do nothing for now
+      return
+    }
+
+    const videoFile = fileList[0].originFileObj || fileList[0]
+console.log('Publishing video with details:', { values, videoFile, thumbnailFile })
+    dispatch(
+      videoUploadRequest({
+        title: values.title,
+        description: values.description,
+        videoFile,
+        thumbnailFile,
+      }),
+    )
+  }
+
+    useEffect(() => {
+      if (success) {
+        form.resetFields()
+        setUploadInfo(null)
+        setFileList([])
+        setThumbnailFile(null)
+        dispatch(resetVideoUploadState())
+      }
+    }, [success, form, dispatch])
+
   return (
     <Layout className="upload-page-root">
       <Header className="upload-header">
@@ -57,19 +98,15 @@ function VideoUpload() {
                 StreamFlow
               </Title>
             </div>
-
-            <div className="upload-search-wrapper">
-              <Input
-                className="upload-search-input"
-                prefix={<SearchOutlined />}
-                placeholder="Search videos..."
-              />
-            </div>
           </div>
 
           <div className="upload-header-right">
             <div className="upload-header-links">
-              <Button type="text" className="upload-header-link">
+              <Button
+                type="text"
+                className="upload-header-link"
+                onClick={() => navigate('/dashboard')}
+              >
                 Dashboard
               </Button>
             </div>
@@ -163,7 +200,12 @@ function VideoUpload() {
 
             {/* Right column: form */}
             <div className="upload-right-column">
-              <Form layout="vertical" className="upload-form">
+              <Form
+                form={form}
+                layout="vertical"
+                className="upload-form"
+                onFinish={handlePublish}
+              >
                 <div className="upload-section">
                   <div className="upload-section-header">
                     <Title level={4} className="upload-section-title">
@@ -175,7 +217,6 @@ function VideoUpload() {
                   <Form.Item
                     label="Title (required)"
                     name="title"
-                    initialValue="Nature Documentary 2024"
                     className="upload-form-item"
                   >
                     <Input placeholder="Give your video a catchy title" maxLength={100} />
@@ -209,6 +250,7 @@ function VideoUpload() {
                       accept="image/png,image/jpeg,image/jpg,image/webp,image/*"
                       showUploadList={false}
                       beforeUpload={() => false}
+                      onChange={handleThumbnailChange}
                     >
                       <Button type="dashed" className="upload-thumbnail-upload">
                         <CloudUploadOutlined />
@@ -222,15 +264,20 @@ function VideoUpload() {
 
 
                 <div className="upload-form-footer">
-                  <Button className="upload-cancel-button">Cancel</Button>
-                  <Button type="primary" className="upload-publish-button">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={loading}
+                    disabled={loading}
+                    className="upload-publish-button"
+                  >
                     Publish Video
                   </Button>
                 </div>
               </Form>
             </div>
           </div>
-        </div> 
+        </div>
       </Content>
     </Layout>
   )

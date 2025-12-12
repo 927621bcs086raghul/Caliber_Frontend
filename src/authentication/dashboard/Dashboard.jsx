@@ -1,5 +1,6 @@
 import { ClockCircleFilled, CompassFilled, HomeFilled, LikeFilled, UploadOutlined, VideoCameraFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import './Dashboard.css'
 import DashboardHeader from './components/DashboardHeader'
 import DashboardHeroSection from './components/DashboardHeroSection'
@@ -41,6 +42,14 @@ const sidebarItems = [
 ]
 
 function Dashboard() {
+  const navigate = useNavigate()
+
+  const handleMenuClick = ({ key }) => {
+    if (key === 'upload') {
+      navigate('/videoUpload')
+    }
+  }
+
   return (
     <div className="dashboard-root">
       {/* Header */}
@@ -50,7 +59,12 @@ function Dashboard() {
       <div className="dashboard-layout">
         {/* Left sidebar */}
         <Sider className="dashboard-sider-left" width={256} theme="light" trigger={null} collapsible={false}>
-          <Menu mode="inline" defaultSelectedKeys={['home']} items={sidebarItems} />
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={['home']}
+            items={sidebarItems}
+            onClick={handleMenuClick}
+          />
         </Sider>
 
         {/* Main */}

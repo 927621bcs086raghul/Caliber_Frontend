@@ -8,8 +8,5 @@ const apiClient = axios.create({
   withCredentials: true,
 })
 
-// You can add interceptors here later (auth token, logging, etc.)
-// apiClient.interceptors.request.use((config) => { ... })
-// apiClient.interceptors.response.use((response) => response, (error) => { ... })
 
 export default apiClient
