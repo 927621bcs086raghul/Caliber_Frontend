@@ -1,7 +1,10 @@
 import { LockOutlined, MailOutlined, PlayCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, Checkbox, Flex, Form, Input, Typography } from 'antd'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import './Register.css'
+import { registerRequest } from './RegisterSlice'
 
 const { Title, Text } = Typography
 
@@ -10,10 +13,23 @@ function Register() {
 
   const navigate = useNavigate()
 
+  const dispatch = useDispatch()
+  const { loading, error, user } = useSelector((state) => state.register)
+
+  useEffect(() => {
+    if (user) {
+      navigate('/login')
+    }
+  }, [user, navigate])
+
   const handleFinish = (values) => {
-    // Replace with real submit logic
-    // eslint-disable-next-line no-console
-    console.log('Register form submitted:', values)
+    dispatch(
+      registerRequest({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      }),
+    )
   }
 
   const handleLoginClick = () => {
@@ -133,7 +149,10 @@ function Register() {
                   <Form.Item
                     label="Password"
                     name="password"
-                    rules={[{ required: true, message: 'Please enter your password' }]}
+                    rules={[
+                      { required: true, message: 'Please enter your password' },
+                      { min: 8, message: 'Password must be at least 8 characters' },
+                    ]}
                   >
                     <Input.Password
                       placeholder="••••••••"
@@ -187,9 +206,16 @@ function Register() {
                   type="primary"
                   htmlType="submit"
                   className="register-submit-button"
+                  loading={loading}
                 >
                   Register Account
                 </Button>
+
+                {error && (
+                  <Text type="danger" className="register-error-text">
+                    {error}
+                  </Text>
+                )}
 
               </Form>
             </div>

@@ -1,18 +1,60 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Suspense, lazy } from 'react'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import Dashboard from './authentication/dashboard/Dashboard'
-import Login from './authentication/login/Login'
-import Register from './authentication/register/Register'
+import useAuth from './hooks/useAuth'
+
+const Login = lazy(() => import('./authentication/login/Login'))
+const Register = lazy(() => import('./authentication/register/Register'))
+const Dashboard = lazy(() => import('./authentication/dashboard/Dashboard'))
+
+function PrivateRoute({ component }) {
+  const { isAuthenticated, loading } = useAuth()
+
+  if (loading || isAuthenticated === null) {
+    return <div>Loading...</div>
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
+
+  return component
+}
+
+function PublicRoute({ component }) {
+  console.log('PublicRoute rendered')
+   const { isAuthenticated } = useAuth()
+
+
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />
+  }
+  return component
+}
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-    <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route
+            path="/login"
+            element={<PublicRoute component={<Login />} />}
+          />
+          <Route
+            path="/register"
+            element={<PublicRoute component={<Register />} />}
+          />
+          <Route
+            path="/dashboard"
+            element={<PrivateRoute component={<Dashboard />} />}
+          />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Suspense>
+    </Router>
   )
 }
 

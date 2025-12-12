@@ -1,7 +1,10 @@
 import { EyeInvisibleOutlined, LockOutlined, PlayCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Tag, Typography } from 'antd'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import './Login.css'
+import { loginRequest } from './loginSlice'
 
 const { Title, Text, Link } = Typography
 
@@ -9,11 +12,22 @@ function Login() {
   const [form] = Form.useForm()
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { loading, error, isAuthenticated } = useSelector((state) => state.login)
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard')
+    }
+  }, [isAuthenticated, navigate])
 
   const handleFinish = (values) => {
-    // Replace with real submit logic
-    // eslint-disable-next-line no-console
-    console.log('Login form submitted:', values)
+    dispatch(
+      loginRequest({
+        email: values.email,
+        password: values.password,
+      }),
+    )
   }
 
   const handleSignUpClick = (event) => {
@@ -72,7 +86,10 @@ function Login() {
             <Form.Item
               label="Password"
               name="password"
-              rules={[{ required: true, message: 'Please enter your password' }]}
+              rules={[
+                { required: true, message: 'Please enter your password' },
+                { min: 8, message: 'Password must be at least 8 characters' },
+              ]}
             >
               <Input.Password
                 placeholder="••••••••"
@@ -90,11 +107,18 @@ function Login() {
               <Link href="#">Forgot Password?</Link>
             </div>
 
+            {error && (
+              <Text type="danger" className="login-error-text">
+                {error}
+              </Text>
+            )}
+
             <Button
               type="primary"
               htmlType="submit"
               block
               className="login-primary-button"
+              loading={loading}
             >
               Log In
             </Button>
