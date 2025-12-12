@@ -1,10 +1,17 @@
-import './App.css';
-import Register from './authentication/register/Register';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import './App.css'
+import Login from './authentication/login/Login'
+import Register from './authentication/register/Register'
+
 function App() {
   return (
-    <>
-    <Register />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

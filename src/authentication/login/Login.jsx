@@ -1,5 +1,6 @@
 import { EyeInvisibleOutlined, LockOutlined, PlayCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Tag, Typography } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import './Login.css'
 
 const { Title, Text, Link } = Typography
@@ -7,10 +8,17 @@ const { Title, Text, Link } = Typography
 function Login() {
   const [form] = Form.useForm()
 
+  const navigate = useNavigate()
+
   const handleFinish = (values) => {
     // Replace with real submit logic
     // eslint-disable-next-line no-console
     console.log('Login form submitted:', values)
+  }
+
+  const handleSignUpClick = (event) => {
+    event.preventDefault()
+    navigate('/register')
   }
 
   return (
@@ -98,7 +106,7 @@ function Login() {
         {/* Footer */}
         <Text type="secondary" className="login-footer">
           Don&apos;t have an account?{' '}
-          <Link href="#">Sign up</Link>
+          <Link href="#" onClick={handleSignUpClick}>Sign up</Link>
         </Text>
       </div>
 

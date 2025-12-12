@@ -1,5 +1,6 @@
 import { LockOutlined, MailOutlined, PlayCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, Checkbox, Flex, Form, Input, Typography } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import './Register.css'
 
 const { Title, Text } = Typography
@@ -7,10 +8,16 @@ const { Title, Text } = Typography
 function Register() {
   const [form] = Form.useForm()
 
+  const navigate = useNavigate()
+
   const handleFinish = (values) => {
     // Replace with real submit logic
     // eslint-disable-next-line no-console
     console.log('Register form submitted:', values)
+  }
+
+  const handleLoginClick = () => {
+    navigate('/login')
   }
 
   return (
@@ -27,7 +34,7 @@ function Register() {
         </div>
         <div className="register-header-right">
           <span className="register-header-text">Already a member?</span>
-          <Button className="register-header-button">Login</Button>
+          <Button className="register-header-button" onClick={handleLoginClick}>Login</Button>
         </div>
       </header>
 
