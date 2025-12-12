@@ -57,10 +57,16 @@
   max-width: 480px;
   margin-left: 24px;
 }
-
+.dashboard-search-wrapper .ant-input-affix-wrapper {
+  border-radius: 8px;
+  border: none;
+    background-color: #f8f6f6;
+    color: #977778;
+}
 .dashboard-search-input .ant-input-affix-wrapper {
   border-radius: 8px;
-  background-color: #f8f6f6;
+    background-color: #f8f6f6;
+    
 }
 
 .dashboard-search-input .ant-input-affix-wrapper:hover,
@@ -552,6 +558,22 @@
 
 .dashboard-premium-button {
   box-shadow: 0 10px 20px rgba(234, 42, 51, 0.3);
+}
+
+/* Sidebar menu (Ant Design) overrides */
+.dashboard-sider-left .ant-menu {
+  border-right: none;
+  border-right-width: 0px !important;
+}
+
+.dashboard-sider-left .ant-menu-item-selected {
+  background-color: #fde9ea !important;
+  color: #ea2f38 !important;
+}
+
+.dashboard-sider-left .ant-menu-item-selected .anticon,
+.dashboard-sider-left .ant-menu-item-selected .ant-menu-title-content {
+  color: #ea2f38 !important;
 }
 
 /* Desktop styles */

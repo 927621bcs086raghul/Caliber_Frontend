@@ -1,0 +1,436 @@
+.upload-page-root {
+  min-height: 100vh;
+  background-color: #f8f6f6;
+  color: #181111;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.upload-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e0e0;
+  padding: 8px 16px;
+}
+
+.upload-header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.upload-header-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.upload-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-logo-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ea2a33;
+}
+
+.upload-logo-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.upload-search-wrapper {
+  display: none;
+  width: 320px;
+}
+
+.upload-search-input .ant-input-affix-wrapper {
+  border-radius: 999px;
+  background-color: #f4f0f0;
+  border: none;
+}
+
+.upload-search-input .ant-input-affix-wrapper:hover,
+.upload-search-input .ant-input-affix-wrapper-focused {
+  border-color: #ea2a33;
+}
+
+.upload-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.upload-header-links {
+  display: none;
+  align-items: center;
+  gap: 16px;
+}
+
+.upload-header-link {
+  padding-inline: 0;
+  color: #181111;
+}
+
+.upload-header-link:hover {
+  color: #ea2a33;
+}
+
+.upload-icon-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-main {
+  padding: 24px 16px 40px;
+}
+
+.upload-main-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.upload-page-heading {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e0e0;
+}
+
+.upload-page-title {
+  margin-bottom: 4px;
+}
+
+.upload-page-subtitle {
+  color: #886364;
+}
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.upload-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upload-dragger {
+  background-color: #fcfafa;
+  border-radius: 12px;
+  border-color: #e5dcdc !important;
+}
+
+.upload-dragger-inner {
+  padding: 24px 16px;
+}
+
+.upload-dragger-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  color: #ea2a33;
+  margin: 0 auto 8px;
+}
+
+.upload-dragger-title {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.upload-dragger-text {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #886364;
+}
+
+.upload-status-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e0e0;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.upload-status-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.upload-status-thumb {
+  width: 96px;
+  height: 64px;
+  border-radius: 8px;
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAEi-W3cYRI7T--80yQnMQn2PRn2rsnYAKmNGeOyZmhqE064Eq2SsAegIvvZXTqGkeg5nO_ernBCIw6fVMYItKXF-O4gIa2pu4jyeCN_WpyZalf7ACvQZAhi_whvKAIAIqJ3AnOBlaMeOCd2ciiKVK9VouifhBozu6Gc5phev6SErIUCJL1JLqJjJrfvEyu6tFBY6MY4CTftHt4C7g9sksxE10QgjQ2CmbTd0M1WSJyOAtaSTmaamqu6l5jpHG4aoHkLUG2VzGeBJ0');
+  background-size: cover;
+  background-position: center;
+}
+
+.upload-status-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.upload-status-name {
+  font-weight: 600;
+}
+
+.upload-status-meta {
+  display: block;
+  font-size: 12px;
+  color: #886364;
+  margin-top: 2px;
+}
+
+.upload-status-close {
+  margin-left: auto;
+  color: #b0b0b0;
+}
+
+.upload-status-progress {
+  margin-top: 8px;
+}
+
+.upload-progress .ant-progress-bg {
+  background-color: #ea2a33;
+}
+
+.upload-status-footer {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.upload-status-label {
+  color: #ea2a33;
+  font-weight: 500;
+}
+
+.upload-status-time {
+  color: #886364;
+}
+
+.upload-right-column {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e0e0;
+  padding: 24px 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upload-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upload-section-title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-section-icon {
+  color: #ea2a33;
+}
+
+.upload-section-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.upload-section-helper {
+  font-size: 12px;
+  color: #886364;
+}
+
+.upload-form-item .ant-form-item-label > label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.upload-textarea {
+  resize: none;
+}
+
+.upload-divider {
+  height: 1px;
+  background-color: #e5e0e0;
+}
+
+.upload-thumbnails-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.upload-thumbnail-upload {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 100px;
+}
+
+.upload-thumbnail {
+  height: 100px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+}
+
+.upload-thumbnail-selected {
+  box-shadow: 0 0 0 2px #ea2a33;
+}
+
+.upload-thumbnail-1 {
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAEZd2U1n9EdBXovmgHjdQ9ZvNM4S90OTiEZPI3gReYMCVxOu5ckWB75RPXVWk5TM8S1RXbyK3dyz3UlDB88-7OkLrjyHyiIwcEoND6XYpfhdjJqz7lAUfrFwHOe62eqV4E5ClKr6INEIhnbC4KsD3qRwqh6XUCKCj0FbCfDnd0Ymyk5gfHwsoyfo8pf9xWcqWbbS5K-1cnZhgF6dT0LbLmZNG7-wGSHPNXd7hM2XaNqWJZZ30LbDehEHRNqJA0QOFjZNqA_7e2AuI');
+}
+
+.upload-thumbnail-2 {
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAG12QgpndYYIR-Ii3On_HR2-qyOfr1RygTXXLrqAoFgZNcLKaxMCsgpT3iw7a-g829N8J3yOO0gy8HC4fR0UZOkWncpKqeg-bE7g2zdNIp5o_j6ktbEA74xedCzQxUTI4sKf9xjhtSUfs3SNmev_9P7BBu0JCu3vtczPbWxqtHt5MDQgLo5Dp3eirAi-PFGKg25Xa8Kyw9IsPZhGsB4JF5DQ_jjCAn5-e-yiYrp9eZScCEs-zCtLolEQUpS28OB-uciR_UVo_1cro');
+}
+
+.upload-thumbnail-3 {
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-tzgZihsRRHg5iWKVtQoE9DwKtt2Xgyqq4s1Y_NW0mg489zvvmEKkUfD61pf3EEnDuYml9DuCjWsVHo4XPmk5ILCSTUH02mEEYBQtBTSlDE-zAOnCDOLr-oMMZmdZP6_ULOG3jpwXrm8Sic5iApPz9zotN3RgG2n4C2BIYr-voz0WiEVORmo1444z9zmlmIZyYazR5k__ArP9E5jAAOly_TiupTCKhIbkxlZZEAo5SfqQgegS9wOwf4yX4tP1_keqD0QnLKmHZ_k');
+}
+
+.upload-visibility-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upload-visibility-card {
+  border-radius: 8px !important;
+  padding: 10px 12px;
+  height: auto !important;
+  border: 1px solid #e5e0e0;
+  background-color: #ffffff;
+}
+
+.upload-visibility-card--active {
+  border-color: #ea2a33;
+  background-color: rgba(234, 42, 51, 0.04);
+}
+
+.upload-visibility-inner {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.upload-visibility-icon {
+  font-size: 18px;
+  color: #b0b0b0;
+}
+
+.upload-visibility-icon-primary {
+  color: #ea2a33;
+}
+
+.upload-visibility-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-visibility-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.upload-visibility-description {
+  font-size: 12px;
+  color: #886364;
+}
+
+.upload-form-footer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.upload-cancel-button {
+  border-color: #d1d5db;
+}
+
+.upload-publish-button {
+  background-color: #ea2a33;
+  border-color: #ea2a33;
+  font-weight: 600;
+}
+
+.upload-publish-button:hover {
+  background-color: #d0242c;
+  border-color: #d0242c;
+}
+
+@media (min-width: 768px) {
+  .upload-search-wrapper {
+    display: block;
+  }
+
+  .upload-header-links {
+    display: flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .upload-grid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+
+  .upload-form-footer {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .upload-right-column {
+    padding-inline: 32px;
+  }
+}

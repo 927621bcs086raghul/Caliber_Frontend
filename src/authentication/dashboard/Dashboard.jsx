@@ -1,9 +1,44 @@
-import { ClockCircleFilled, CompassFilled, HomeFilled, LikeFilled, VideoCameraFilled } from '@ant-design/icons'
-import { Button } from 'antd'
+import { ClockCircleFilled, CompassFilled, HomeFilled, LikeFilled, UploadOutlined, VideoCameraFilled } from '@ant-design/icons'
+import { Layout, Menu } from 'antd'
 import './Dashboard.css'
 import DashboardHeader from './components/DashboardHeader'
 import DashboardHeroSection from './components/DashboardHeroSection'
 import DashboardTrendingGrid from './components/DashboardTrendingGrid'
+
+const { Sider } = Layout
+
+const sidebarItems = [
+  {
+    key: 'home',
+    icon: <HomeFilled />,
+    label: 'Home',
+  },
+  {
+    key: 'upload',
+    icon: <UploadOutlined />,
+    label: 'Upload',
+  },
+  {
+    key: 'explore',
+    icon: <CompassFilled />,
+    label: 'Explore',
+  },
+  {
+    key: 'library',
+    icon: <VideoCameraFilled />,
+    label: 'Library',
+  },
+  {
+    key: 'history',
+    icon: <ClockCircleFilled />,
+    label: 'History',
+  },
+  {
+    key: 'liked',
+    icon: <LikeFilled />,
+    label: 'Liked Videos',
+  },
+]
 
 function Dashboard() {
   return (
@@ -14,23 +49,9 @@ function Dashboard() {
       {/* Body layout */}
       <div className="dashboard-layout">
         {/* Left sidebar */}
-        <aside className="dashboard-sider-left">
-          <Button type="text" icon={<HomeFilled />}>
-            Home
-          </Button>
-          <Button type="text" icon={<CompassFilled />}>
-            Explore
-          </Button>
-          <Button type="text" icon={<VideoCameraFilled />}>
-            Library
-          </Button>
-          <Button type="text" icon={<ClockCircleFilled />}>
-            History
-          </Button>
-          <Button type="text" icon={<LikeFilled />}>
-            Liked Videos
-          </Button>
-        </aside>
+        <Sider className="dashboard-sider-left" width={256} theme="light" trigger={null} collapsible={false}>
+          <Menu mode="inline" defaultSelectedKeys={['home']} items={sidebarItems} />
+        </Sider>
 
         {/* Main */}
         <main className="dashboard-main">

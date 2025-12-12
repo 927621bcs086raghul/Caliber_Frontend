@@ -6,14 +6,14 @@ import useAuth from './hooks/useAuth'
 const Login = lazy(() => import('./authentication/login/Login'))
 const Register = lazy(() => import('./authentication/register/Register'))
 const Dashboard = lazy(() => import('./authentication/dashboard/Dashboard'))
-
+const VideoUpload = lazy(() => import('./authentication/videoUpload/VideoUpload'));
 function PrivateRoute({ component }) {
   const { isAuthenticated, loading } = useAuth()
 
   if (loading || isAuthenticated === null) {
     return <div>Loading...</div>
   }
-
+  console.log('PrivateRoute rendered, isAuthenticated:', isAuthenticated) 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />
   }
@@ -28,6 +28,7 @@ function PublicRoute({ component }) {
 
 
   if (isAuthenticated) {
+
     return <Navigate to="/dashboard" replace />
   }
   return component
@@ -51,7 +52,12 @@ function App() {
             path="/dashboard"
             element={<PrivateRoute component={<Dashboard />} />}
           />
+          <Route
+          path='/videoUpload'
+          element={<PrivateRoute component={<VideoUpload />} />}
+          />
           <Route path="*" element={<Navigate to="/login" replace />} />
+
         </Routes>
       </Suspense>
     </Router>
