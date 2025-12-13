@@ -205,12 +205,13 @@ function ProfileDetails() {
             </section>
           </div>
         </section>
+        {videos.length > 0 &&
         <div className=' uploaded-video-profile-contact-card'>
             <div>
                 <h2 className="profile-contact-title">Uploaded Videos</h2>
             </div>
             <DashboardTrendingGrid videos={videos} />
-        </div>
+        </div>}
          
       </main>
 
