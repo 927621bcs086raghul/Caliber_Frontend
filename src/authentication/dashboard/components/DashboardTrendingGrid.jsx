@@ -7,11 +7,7 @@ const { Title } = Typography
 function DashboardTrendingGrid({ videos = [] }) {
   const navigate = useNavigate()
 
-  const handleCardClick = (video) => {
-    if (!video?.id) return
-    // Pass the full video object so the player does not need to refetch
-    navigate(`/videos/${video.id}`, { state: { video } })
-  }
+
   return (
     <section>
       <div className="dashboard-trending-header">
