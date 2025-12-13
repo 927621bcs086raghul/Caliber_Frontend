@@ -9,9 +9,10 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import UserProfilePopover from '../../components/UserProfilePopover'
+import DashboardTrendingGrid from '../dashboard/components/DashboardTrendingGrid'
 import { logoutRequest } from '../logout/logoutSlice'
 import './ProfileDetails.css'
-import { profileFetchRequest, profileUpdateRequest } from './profileDetailsSlice'
+import { profileFetchRequest, profileUpdateRequest, profileUserVideosRequest } from './profileDetailsSlice'
 
 function ProfileDetails() {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ function ProfileDetails() {
   const loginUser = useSelector((state) => state.login?.user || null)
   const [isEditModalVisible, setIsEditModalVisible] = useState(false)
   const [form] = Form.useForm()
-
+  const videos = useSelector((state) => state.profileDetails?.userVideos || [])
   useEffect(() => {
     // Load current profile via GET /api/auth/me/{id}
     let storedUserId
@@ -36,11 +37,15 @@ function ProfileDetails() {
 
     const userId = loginUser?.id || storedUserId
 
-    if (!userId || data) {
+    if (!userId) {
       return
     }
 
-    dispatch(profileFetchRequest(userId))
+    if (!data) {
+      dispatch(profileFetchRequest(userId))
+    }
+
+    dispatch(profileUserVideosRequest(userId))
   }, [dispatch, loginUser?.id, data])
   const displayName = data?.name || 'Alex Rivera'
   const displayEmail = data?.email || 'alex.rivera@example.com'
@@ -228,6 +233,7 @@ function ProfileDetails() {
           </Form.Item>
         </Form>
       </Modal>
+      <DashboardTrendingGrid videos={videos} />
     </div>
   )
 }

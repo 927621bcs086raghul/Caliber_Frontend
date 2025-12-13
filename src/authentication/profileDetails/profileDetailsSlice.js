@@ -4,6 +4,9 @@ const initialState = {
   loading: false,
   error: null,
   data: JSON.parse(localStorage.getItem('loginUser'))?.user || null,
+  userVideos: [],
+  userVideosLoading: false,
+  userVideosError: null,
 }
 
 const profileDetailsSlice = createSlice({
@@ -34,6 +37,18 @@ const profileDetailsSlice = createSlice({
       state.loading = false
       state.error = action.payload
     },
+    profileUserVideosRequest(state) {
+      state.userVideosLoading = true
+      state.userVideosError = null
+    },
+    profileUserVideosSuccess(state, action) {
+      state.userVideosLoading = false
+      state.userVideos = action.payload
+    },
+    profileUserVideosFailure(state, action) {
+      state.userVideosLoading = false
+      state.userVideosError = action.payload
+    },
     resetProfileDetails() {
       return initialState
     },
@@ -47,6 +62,9 @@ export const {
   profileUpdateRequest,
   profileUpdateSuccess,
   profileUpdateFailure,
+   profileUserVideosRequest,
+   profileUserVideosSuccess,
+   profileUserVideosFailure,
   resetProfileDetails,
 } = profileDetailsSlice.actions
 

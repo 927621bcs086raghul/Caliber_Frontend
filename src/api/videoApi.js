@@ -16,3 +16,14 @@ export const uploadVideo = async ({ title, description, videoFile, thumbnailFile
 
   return response.data
 }
+
+export const getVideoById = async (id) => {
+  const response = await apiClient.get(`/videos/${id}`)
+  return response.data
+}
+
+export const getVideosByUser = async (userId) => {
+  const response = await apiClient.get(`/videos/user/${userId}`)
+  return response.data
+}
+
