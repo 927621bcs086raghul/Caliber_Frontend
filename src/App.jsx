@@ -70,7 +70,7 @@ function App() {
           />
            <Route
             path="/video/:id"
-            element={<PrivateRoute component={<VideoPlayer/>} />}
+            element={<PrivateRoute component={<VideoPlayer/>} />}/>
           <Route
             path="/videos/:id"
             element={<PrivateRoute component={<VideoStream />} />}

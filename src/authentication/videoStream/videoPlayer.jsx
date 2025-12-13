@@ -1,8 +1,7 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
-import "./VideoPlayer.css";
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import DashboardHeader from "../dashboard/components/DashboardHeader";
+import "./VideoPlayer.css";
 
 function VideoPlayer() {
   const { id } = useParams();
