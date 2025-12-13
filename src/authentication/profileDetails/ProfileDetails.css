@@ -41,6 +41,28 @@
   font-weight: 700;
 }
 
+.profile-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-nav-dashboard-link {
+  border: none;
+  background: transparent;
+  color: #181111;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.profile-nav-dashboard-link:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 .profile-nav-avatar {
   width: 32px;
   height: 32px;

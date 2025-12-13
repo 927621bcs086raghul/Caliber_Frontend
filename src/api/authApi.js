@@ -30,3 +30,13 @@ export const logoutUser = async () => {
   const response = await apiClient.post('/auth/logout')
   return response.data
 }
+
+export const updateProfile = async (profileData) => {
+  const response = await apiClient.patch('/auth/profile', profileData)
+  return response.data
+}
+
+export const getProfileById = async (id) => {
+  const response = await apiClient.get(`/auth/me/${id}`)
+  return response.data
+}
