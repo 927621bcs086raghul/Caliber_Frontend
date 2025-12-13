@@ -36,7 +36,7 @@ function DashboardHeader({ searchTerm, onSearchChange }) {
           <Input
             className="dashboard-search-input"
             prefix={<SearchOutlined />}
-            placeholder="Search creators, videos..."
+            placeholder="Search  videos..."
             value={searchTerm}
             onChange={(e) => onSearchChange?.(e.target.value)}
           />
