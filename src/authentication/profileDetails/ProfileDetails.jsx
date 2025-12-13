@@ -205,6 +205,13 @@ function ProfileDetails() {
             </section>
           </div>
         </section>
+        <div className=' uploaded-video-profile-contact-card'>
+            <div>
+                <h2 className="profile-contact-title">Uploaded Videos</h2>
+            </div>
+            <DashboardTrendingGrid videos={videos} />
+        </div>
+         
       </main>
 
       <Modal
@@ -233,7 +240,7 @@ function ProfileDetails() {
           </Form.Item>
         </Form>
       </Modal>
-      <DashboardTrendingGrid videos={videos} />
+     
     </div>
   )
 }
