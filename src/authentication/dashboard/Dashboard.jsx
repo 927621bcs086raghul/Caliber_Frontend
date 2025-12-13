@@ -1,4 +1,4 @@
-import { ClockCircleFilled, CompassFilled, HomeFilled, LikeFilled, UploadOutlined, VideoCameraFilled } from '@ant-design/icons'
+import { HomeFilled, UploadOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import './Dashboard.css'
@@ -19,26 +19,7 @@ const sidebarItems = [
     icon: <UploadOutlined />,
     label: 'Upload',
   },
-  {
-    key: 'explore',
-    icon: <CompassFilled />,
-    label: 'Explore',
-  },
-  {
-    key: 'library',
-    icon: <VideoCameraFilled />,
-    label: 'Library',
-  },
-  {
-    key: 'history',
-    icon: <ClockCircleFilled />,
-    label: 'History',
-  },
-  {
-    key: 'liked',
-    icon: <LikeFilled />,
-    label: 'Liked Videos',
-  },
+ 
 ]
 
 function Dashboard() {
