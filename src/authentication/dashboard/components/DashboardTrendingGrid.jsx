@@ -1,15 +1,22 @@
 import { EllipsisOutlined } from '@ant-design/icons'
 import { Avatar, Button, Typography } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import '../Dashboard.css'
 
 const { Title } = Typography
 
 function DashboardTrendingGrid({ videos = [] }) {
+  const navigate = useNavigate()
+
+  const handleCardClick = (id) => {
+    if (!id) return
+    navigate(`/videos/${id}`)
+  }
   return (
     <section>
       <div className="dashboard-trending-header">
         
-      
+         
       </div>
 
       <div className="dashboard-trending-grid">
@@ -20,6 +27,8 @@ function DashboardTrendingGrid({ videos = [] }) {
             <article
               key={video.id}
               className="dashboard-card"
+              onClick={() => handleCardClick(video.id)}
+              style={{ cursor: 'pointer' }}
             >
               <div
                 className="dashboard-card-media"

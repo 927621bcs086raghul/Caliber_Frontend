@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import { all, call, put, takeLatest } from 'redux-saga/effects'
 import { getProfileById, loginUser, logoutUser, registerUser, updateProfile } from '../api/authApi'
-import { uploadVideo } from '../api/videoApi'
+import { getVideosByUser, uploadVideo } from '../api/videoApi'
 import { loginFailure, logout as loginLogout, loginRequest, loginSuccess } from '../authentication/login/loginSlice'
 import {
   logoutFailure,
@@ -15,6 +15,9 @@ import {
   profileUpdateFailure,
   profileUpdateRequest,
   profileUpdateSuccess,
+  profileUserVideosFailure,
+  profileUserVideosRequest,
+  profileUserVideosSuccess,
 } from '../authentication/profileDetails/profileDetailsSlice'
 import {
   registerFailure,
@@ -124,6 +127,18 @@ function* handleProfileFetch(action) {
   }
 }
 
+function* handleProfileUserVideosFetch(action) {
+  try {
+    const data = yield call(getVideosByUser, action.payload)
+    yield put(profileUserVideosSuccess(data))
+  } catch (error) {
+    const msg =
+      error?.response?.data?.message || error?.message || 'Failed to load user videos'
+    yield put(profileUserVideosFailure(msg))
+    message.error(msg)
+  }
+}
+
 function* watchRegister() {
   yield takeLatest(registerRequest.type, handleRegister)
 }
@@ -148,6 +163,10 @@ function* watchProfileFetch() {
   yield takeLatest(profileFetchRequest.type, handleProfileFetch)
 }
 
+function* watchProfileUserVideosFetch() {
+  yield takeLatest(profileUserVideosRequest.type, handleProfileUserVideosFetch)
+}
+
 export default function* rootSaga() {
   yield all([
     watchLogin(),
@@ -156,5 +175,6 @@ export default function* rootSaga() {
     watchLogout(),
     watchProfileUpdate(),
     watchProfileFetch(),
+    watchProfileUserVideosFetch(),
   ])
 }

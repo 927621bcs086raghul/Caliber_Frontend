@@ -1,5 +1,4 @@
 import {
-  BellOutlined,
   CloseOutlined,
   CloudUploadOutlined,
   EditOutlined,
@@ -9,7 +8,9 @@ import { Button, Form, Input, Layout, Progress, Typography, Upload } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import AppSidebar from '../../components/AppSidebar'
 import UserProfilePopover from '../../components/UserProfilePopover'
+import '../dashboard/Dashboard.css'
 import { logoutRequest } from '../logout/logoutSlice'
 import './VideoUpload.css'
 import { resetVideoUploadState, videoUploadRequest } from './videoUploadSlice'
@@ -112,19 +113,10 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
           </div>
 
           <div className="upload-header-right">
-            <div className="upload-header-links">
-              <Button
-                type="text"
-                className="upload-header-link"
-                onClick={() => navigate('/dashboard')}
-              >
-                Dashboard
-              </Button>
-            </div>
+          
 
             <Button
               type="text"
-              icon={<BellOutlined />}
               className="upload-icon-button"
             />
             <UserProfilePopover
@@ -136,8 +128,10 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
         </div>
       </Header>
 
-      <Content className="upload-main">
-        <div className="upload-main-inner">
+      <Layout>
+        <AppSidebar />
+        <Content className="upload-main dashboard-main">
+          <div className="upload-main-inner">
           <div className="upload-page-heading">
             <div className="upload-page-heading-left">
               <Title level={2} className="upload-page-title">
@@ -289,8 +283,9 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
               </Form>
             </div>
           </div>
-        </div>
-      </Content>
+          </div>
+        </Content>
+      </Layout>
     </Layout>
   )
 }
