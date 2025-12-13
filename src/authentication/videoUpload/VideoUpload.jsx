@@ -1,5 +1,4 @@
 import {
-  BellOutlined,
   CloseOutlined,
   CloudUploadOutlined,
   EditOutlined,
@@ -114,19 +113,10 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
           </div>
 
           <div className="upload-header-right">
-            <div className="upload-header-links">
-              <Button
-                type="text"
-                className="upload-header-link"
-                onClick={() => navigate('/dashboard')}
-              >
-                Dashboard
-              </Button>
-            </div>
+          
 
             <Button
               type="text"
-              icon={<BellOutlined />}
               className="upload-icon-button"
             />
             <UserProfilePopover
