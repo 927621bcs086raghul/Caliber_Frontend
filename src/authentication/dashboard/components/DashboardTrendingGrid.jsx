@@ -1,16 +1,22 @@
 import { EllipsisOutlined } from '@ant-design/icons'
 import { Avatar, Button, Typography } from 'antd'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import '../Dashboard.css'
 
 const { Title } = Typography
 function DashboardTrendingGrid({ videos = [] }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const handleCardClick = (video) => {
+    if (!video?.id) return
+    // Pass the full video object so the player does not need to refetch
+    navigate(`/videos/${video.id}`, { state: { video } })
+  }
   return (
     <section>
       <div className="dashboard-trending-header">
         
-      
+         
       </div>
 
       <div className="dashboard-trending-grid" >
@@ -21,6 +27,8 @@ function DashboardTrendingGrid({ videos = [] }) {
             <article
               key={video.id}
               className="dashboard-card"
+              onClick={() => handleCardClick(video)}
+              style={{ cursor: 'pointer' }}
             >
               <div
                 className="dashboard-card-media"

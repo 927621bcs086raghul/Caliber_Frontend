@@ -1,40 +1,34 @@
-import { HomeFilled, UploadOutlined } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
 import { io } from 'socket.io-client'
-import './Dashboard.css'
+import AppSidebar from '../../components/AppSidebar'
+import useDebounce from '../../hooks/useDebounce'
 import DashboardHeader from './components/DashboardHeader'
 import DashboardTrendingGrid from './components/DashboardTrendingGrid'
-
-const { Sider } = Layout
+import './Dashboard.css'
 
 // Single shared Socket.IO connection for the dashboard
 const socket = io('http://localhost:5000')
 
-const sidebarItems = [
-  {
-    key: 'home',
-    icon: <HomeFilled />,
-    label: 'Home',
-  },
-  {
-    key: 'upload',
-    icon: <UploadOutlined />,
-    label: 'Upload',
-  },
- 
-]
-
 function Dashboard() {
-  const navigate = useNavigate()
   const [liveVideos, setLiveVideos] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const debouncedSearchTerm = useDebounce(searchTerm, 400)
 
-  const handleMenuClick = ({ key }) => {
-    if (key === 'upload') {
-      navigate('/videoUpload')
-    }
-  }
+  const filteredVideos = useMemo(() => {
+    const q = debouncedSearchTerm.trim().toLowerCase()
+    if (!q) return liveVideos
+
+    return liveVideos.filter((video) => {
+      const title = (video.title || '').toLowerCase()
+      const description = (video.description || '').toLowerCase()
+      const userName = (video.User?.name || '').toLowerCase()
+      return (
+        title.includes(q) ||
+        description.includes(q) ||
+        userName.includes(q)
+      )
+    })
+  }, [liveVideos, debouncedSearchTerm])
 
   useEffect(() => {
     // Socket connection diagnostics
@@ -83,19 +77,15 @@ function Dashboard() {
   return (
     <div className="dashboard-root">
       {/* Header */}
-      <DashboardHeader />
+      <DashboardHeader
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+      />
 
       {/* Body layout */}
       <div className="dashboard-layout">
         {/* Left sidebar */}
-        <Sider className="dashboard-sider-left" width={256} theme="light" trigger={null} collapsible={false}>
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['home']}
-            items={sidebarItems}
-            onClick={handleMenuClick}
-          />
-        </Sider>
+        <AppSidebar />
 
         {/* Main */}
         <main className="dashboard-main">
@@ -111,7 +101,7 @@ function Dashboard() {
             
 
               {/* Trending grid */}
-            <DashboardTrendingGrid videos={liveVideos} />
+            <DashboardTrendingGrid videos={filteredVideos} />
           </div>
         </main>
       </div>
