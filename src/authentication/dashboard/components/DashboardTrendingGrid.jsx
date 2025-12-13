@@ -8,9 +8,10 @@ const { Title } = Typography
 function DashboardTrendingGrid({ videos = [] }) {
   const navigate = useNavigate()
 
-  const handleCardClick = (id) => {
-    if (!id) return
-    navigate(`/videos/${id}`)
+  const handleCardClick = (video) => {
+    if (!video?.id) return
+    // Pass the full video object so the player does not need to refetch
+    navigate(`/videos/${video.id}`, { state: { video } })
   }
   return (
     <section>
@@ -27,7 +28,7 @@ function DashboardTrendingGrid({ videos = [] }) {
             <article
               key={video.id}
               className="dashboard-card"
-              onClick={() => handleCardClick(video.id)}
+              onClick={() => handleCardClick(video)}
               style={{ cursor: 'pointer' }}
             >
               <div

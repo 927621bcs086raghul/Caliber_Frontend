@@ -32,6 +32,8 @@ const profileDetailsSlice = createSlice({
     profileUpdateSuccess(state, action) {
       state.loading = false
       state.data = action.payload
+      localStorage.setItem('loginUser', JSON.stringify({ user: state.data }));
+
     },
     profileUpdateFailure(state, action) {
       state.loading = false
