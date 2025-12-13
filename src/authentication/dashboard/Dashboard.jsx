@@ -1,40 +1,15 @@
-import { HomeFilled, UploadOutlined } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
-import './Dashboard.css'
+import AppSidebar from '../../components/AppSidebar'
 import DashboardHeader from './components/DashboardHeader'
 import DashboardTrendingGrid from './components/DashboardTrendingGrid'
-
-const { Sider } = Layout
+import './Dashboard.css'
 
 // Single shared Socket.IO connection for the dashboard
 const socket = io('http://localhost:5000')
 
-const sidebarItems = [
-  {
-    key: 'home',
-    icon: <HomeFilled />,
-    label: 'Home',
-  },
-  {
-    key: 'upload',
-    icon: <UploadOutlined />,
-    label: 'Upload',
-  },
- 
-]
-
 function Dashboard() {
-  const navigate = useNavigate()
   const [liveVideos, setLiveVideos] = useState([])
-
-  const handleMenuClick = ({ key }) => {
-    if (key === 'upload') {
-      navigate('/videoUpload')
-    }
-  }
 
   useEffect(() => {
     // Socket connection diagnostics
@@ -88,14 +63,7 @@ function Dashboard() {
       {/* Body layout */}
       <div className="dashboard-layout">
         {/* Left sidebar */}
-        <Sider className="dashboard-sider-left" width={256} theme="light" trigger={null} collapsible={false}>
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['home']}
-            items={sidebarItems}
-            onClick={handleMenuClick}
-          />
-        </Sider>
+        <AppSidebar />
 
         {/* Main */}
         <main className="dashboard-main">
