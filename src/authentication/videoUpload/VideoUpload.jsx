@@ -106,6 +106,7 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
               </div>
               <Title level={4} className="upload-logo-title">
               StreamHub
+              
               </Title>
             </div>
           </div>
@@ -127,7 +128,7 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
               className="upload-icon-button"
             />
             <UserProfilePopover
-              avatarSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuB26uZbBxLN8PwmUI4VTsmeX6AE-GJognI0MGKjDHI84QDGQFiztsKURINyT8uqybQ-jAwZlJvCiUwXRWku1Jh0-mnvr4HyAEVnXX0bLQA31hXXZNG8nZ6PrGmPCtqs56TuHnoBGT7k9sijxUxfdAlOZBi3pbS71JWbi9MtGvuLo1TsmVxFlds2VLQJlMOX6waxB83JaOe8mwjT0DrtYnoQZxXyatnNyhftYShxHOV0ic6-V0FHA2tXlacSC1cbQywddfpOaLboc5s"
+              avatarSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuDFXUWnBEsX5liTUy2PJJ56e62aiI_vOCYt7X5WChinGbV39owQDu7xAqqvmTolqQBWRi9NzQxAYPgvoHvPqGJXlvnvZiu1WMQQ0v58fs1_kYCplzsSr2R2atw3gacr68qaQpzmOiKAcd160oALsHHQsbuVkp0QOzgGRx_CICEsjAOQSX5SW5uiajSRPX-7vAVU63swG_KnTegsavoMrdkEphoUe7qfDgESmzmgefsWDQ1Jz9uYcw6ELW5p1TDKaYg3A0HeSNUNkv4"
               onProfileClick={handleProfileClick}
               onLogoutClick={handleLogoutClick}
             />
