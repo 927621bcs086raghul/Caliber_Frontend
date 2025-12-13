@@ -1,16 +1,17 @@
 import { LeftOutlined } from '@ant-design/icons'
 import { Button, Spin } from 'antd'
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { getVideoById } from '../../api/videoApi'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import './VideoStream.css'
 
 function VideoStream() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+  const initialVideo = location.state?.video || null
   const videoRef = useRef(null)
-  const [video, setVideo] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [video, setVideo] = useState(initialVideo)
+  const [loading, setLoading] = useState(!initialVideo)
   const [error, setError] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
@@ -18,25 +19,18 @@ function VideoStream() {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    const loadVideo = async () => {
-      try {
-        const data = await getVideoById(id)
-        setVideo(data)
-      } catch (e) {
-        setError('Failed to load video')
-      } finally {
-        setLoading(false)
-      }
+    // We expect the video object to be passed via navigation state
+    if (!initialVideo) {
+      setError('Video not found. Please open from dashboard.')
+      setLoading(false)
     }
-
-    if (id) {
-      loadVideo()
-    }
-  }, [id])
+  }, [id, initialVideo])
 
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setProgress(0)
+      // Ensure volume state is in sync with element
+      videoRef.current.volume = volume
     }
   }
 
@@ -86,10 +80,6 @@ function VideoStream() {
   }
 
   const toggleFullscreen = () => {
-    const container = document.fullscreenElement
-      ? document.fullscreenElement
-      : document.querySelector('.video-player-shell')
-
     if (!document.fullscreenElement) {
       const el = document.querySelector('.video-player-shell')
       if (el && el.requestFullscreen) {
@@ -139,6 +129,12 @@ function VideoStream() {
           src={`http://localhost:5000${video.filepath}`}
           onLoadedMetadata={handleLoadedMetadata}
           onTimeUpdate={handleTimeUpdate}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => {
+            setIsPlaying(false)
+            setProgress(0)
+          }}
         />
 
         <div className="video-controls">

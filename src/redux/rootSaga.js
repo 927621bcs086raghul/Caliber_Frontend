@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import { all, call, put, takeLatest } from 'redux-saga/effects'
+import { all, call, put, select, takeLatest } from 'redux-saga/effects'
 import { getProfileById, loginUser, logoutUser, registerUser, updateProfile } from '../api/authApi'
 import { getVideosByUser, uploadVideo } from '../api/videoApi'
 import { loginFailure, logout as loginLogout, loginRequest, loginSuccess } from '../authentication/login/loginSlice'
@@ -106,6 +106,17 @@ function* handleProfileUpdate(action) {
     const data = yield call(updateProfile, action.payload)
     yield put(profileUpdateSuccess(data))
     message.success('Profile updated successfully')
+
+    // After a successful update, refetch the latest profile details
+    try {
+      const loginState = yield select((state) => state.login)
+      const userId = loginState?.user?.id
+      if (userId) {
+        yield put(profileFetchRequest(userId))
+      }
+    } catch (e) {
+      // ignore refetch errors; main update already succeeded
+    }
   } catch (error) {
     const msg =
       error?.response?.data?.message || error?.message || 'Failed to update profile'
