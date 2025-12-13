@@ -1,7 +1,4 @@
-import {
-  PlayCircleOutlined,
-  SearchOutlined
-} from '@ant-design/icons'
+import { PlayCircleOutlined, SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Typography } from 'antd'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -11,7 +8,7 @@ import '../Dashboard.css'
 
 const { Title } = Typography
 
-function DashboardHeader() {
+function DashboardHeader({ searchTerm, onSearchChange }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -40,6 +37,8 @@ function DashboardHeader() {
             className="dashboard-search-input"
             prefix={<SearchOutlined />}
             placeholder="Search creators, videos..."
+            value={searchTerm}
+            onChange={(e) => onSearchChange?.(e.target.value)}
           />
         </div>
       </div>
