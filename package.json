@@ -1,8 +1,20 @@
 {
   "name": "frontend",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "homepage": "https://github.com/927621bcs086raghul/Caliber_Frontend#readme",
+  "bugs": {
+    "url": "https://github.com/927621bcs086raghul/Caliber_Frontend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/927621bcs086raghul/Caliber_Frontend.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,6 +26,7 @@
     "@reduxjs/toolkit": "^2.11.1",
     "antd": "^6.1.0",
     "axios": "^1.13.2",
+    "prop-types": "^15.8.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-redux": "^9.2.0",

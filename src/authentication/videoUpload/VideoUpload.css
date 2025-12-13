@@ -194,11 +194,14 @@
 .upload-status-thumb {
   width: 96px;
   height: 64px;
-  border-radius: 8px;
-  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAEi-W3cYRI7T--80yQnMQn2PRn2rsnYAKmNGeOyZmhqE064Eq2SsAegIvvZXTqGkeg5nO_ernBCIw6fVMYItKXF-O4gIa2pu4jyeCN_WpyZalf7ACvQZAhi_whvKAIAIqJ3AnOBlaMeOCd2ciiKVK9VouifhBozu6Gc5phev6SErIUCJL1JLqJjJrfvEyu6tFBY6MY4CTftHt4C7g9sksxE10QgjQ2CmbTd0M1WSJyOAtaSTmaamqu6l5jpHG4aoHkLUG2VzGeBJ0');
-  background-size: cover;
+  border-radius: 50%;
+  background-image: url('https://366icons.com/media/01/play-media-multimedia-icon-6012.svg');
+  background-size: contain;   
+  background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 }
+
 
 .upload-status-info {
   flex: 1 1 auto;
@@ -313,6 +316,12 @@
   gap: 12px;
 }
 
+.thumbnail-preview-title{
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
 .upload-thumbnail-upload {
   display: flex;
   flex-direction: column;
@@ -321,6 +330,21 @@
   justify-content: center;
   gap: 4px;
   height: 100px;
+}
+
+.thumbnail-preview {
+  width: 160px;
+  height: 90px;           /* 16:9 */
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #d9d9d9;
+  background: #000;
+}
+
+.thumbnail-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .upload-thumbnail {

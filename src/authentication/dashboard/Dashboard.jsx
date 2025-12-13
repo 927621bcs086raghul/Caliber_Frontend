@@ -74,10 +74,6 @@ function Dashboard() {
                 <button className="dashboard-chip-primary">All</button>
               </div>
             </div>
-
-
-            
-
               {/* Trending grid */}
             <DashboardTrendingGrid videos={liveVideos} />
           </div>

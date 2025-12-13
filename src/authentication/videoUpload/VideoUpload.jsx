@@ -14,6 +14,7 @@ import '../dashboard/Dashboard.css'
 import { logoutRequest } from '../logout/logoutSlice'
 import './VideoUpload.css'
 import { resetVideoUploadState, videoUploadRequest } from './videoUploadSlice'
+import VideoPreviewModal from '../videoPreview/VideoPreviewModal'
 
 const { Header, Content } = Layout
 const { Title, Text } = Typography
@@ -24,6 +25,8 @@ function VideoUpload() {
   const [uploadInfo, setUploadInfo] = useState(null)
   const [fileList, setFileList] = useState([])
   const [thumbnailFile, setThumbnailFile] = useState(null)
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewUrl, setPreviewUrl] = useState('')
 
   const dispatch = useDispatch()
   const { loading, success } = useSelector((state) => state.videoUpload || {})
@@ -68,6 +71,25 @@ function VideoUpload() {
     setThumbnailFile(file || null)
   }
 
+  // Handle video preview
+  const handlePreviewClick = () => {
+    if (fileList.length > 0) {
+      const file = fileList[0].originFileObj || fileList[0]
+      const url = URL.createObjectURL(file)
+      setPreviewUrl(url)
+      setPreviewVisible(true)
+    }
+  }
+
+  // Handle preview modal close
+  const handlePreviewClose = () => {
+    setPreviewVisible(false)
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl)
+      setPreviewUrl('')
+    }
+  }
+
   const handlePublish = (values) => {
     if (!fileList.length) {
       // No video selected; do nothing for now
@@ -75,7 +97,7 @@ function VideoUpload() {
     }
 
     const videoFile = fileList[0].originFileObj || fileList[0]
-console.log('Publishing video with details:', { values, videoFile, thumbnailFile })
+    console.log('Publishing video with details:', { values, videoFile, thumbnailFile })
     dispatch(
       videoUploadRequest({
         title: values.title,
@@ -86,15 +108,24 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
     )
   }
 
-    useEffect(() => {
-      if (success) {
-        form.resetFields()
-        setUploadInfo(null)
-        setFileList([])
-        setThumbnailFile(null)
-        dispatch(resetVideoUploadState())
+  useEffect(() => {
+    if (success) {
+      form.resetFields()
+      setUploadInfo(null)
+      setFileList([])
+      setThumbnailFile(null)
+      dispatch(resetVideoUploadState())
+    }
+  }, [success, form, dispatch])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
       }
-    }, [success, form, dispatch])
+    }
+  }, [previewUrl])
 
   return (
     <Layout className="upload-page-root">
@@ -171,7 +202,12 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
               {uploadInfo && (
                 <div className="upload-status-card">
                   <div className="upload-status-header">
-                    <div className="upload-status-thumb" />
+                    <div 
+                      className="upload-status-thumb" 
+                      onClick={handlePreviewClick}
+                      style={{ cursor: 'pointer' }}
+                      title="Click to preview video"
+                    />
                     <div className="upload-status-info">
                       <Text className="upload-status-name" ellipsis>
                         {uploadInfo.name}
@@ -188,6 +224,10 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
                       onClick={() => {
                         setUploadInfo(null)
                         setFileList([])
+                        if (previewUrl) {
+                          URL.revokeObjectURL(previewUrl)
+                          setPreviewUrl('')
+                        }
                       }}
                     />
                   </div>
@@ -252,6 +292,18 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
                   </div>
 
                   <div className="upload-thumbnails-grid">
+                     {/* THUMBNAIL PREVIEW */}
+                     <div className='thumbnail-preview-title'>
+                      {!thumbnailFile && "Preview"}
+                      {thumbnailFile && (
+                        <div className="thumbnail-preview">
+                          <img
+                            src={URL.createObjectURL(thumbnailFile)}
+                            alt="Thumbnail preview"
+                          />
+                        </div>
+                      )}
+                      </div>
                     <Upload
                       accept="image/png,image/jpeg,image/jpg,image/webp,image/*"
                       showUploadList={false}
@@ -286,6 +338,14 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
           </div>
         </Content>
       </Layout>
+
+      {/* Video Preview Modal */}
+      <VideoPreviewModal
+        visible={previewVisible}
+        videoUrl={previewUrl}
+        onClose={handlePreviewClose}
+        videoName={uploadInfo?.name}
+      />
     </Layout>
   )
 }
