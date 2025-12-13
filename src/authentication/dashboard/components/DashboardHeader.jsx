@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons'
 import { Button, Input, Typography } from 'antd'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import UserProfilePopover from '../../../components/UserProfilePopover'
 import { logoutRequest } from '../../logout/logoutSlice'
 import '../Dashboard.css'
@@ -14,9 +15,10 @@ const { Title } = Typography
 
 function DashboardHeader() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleProfileClick = () => {
-    // Navigate to profile page when implemented
+    navigate('/profile')
   }
 
   const handleLogoutClick = () => {

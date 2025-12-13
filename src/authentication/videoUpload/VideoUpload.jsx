@@ -29,7 +29,7 @@ function VideoUpload() {
   const navigate = useNavigate()
 
   const handleProfileClick = () => {
-    // Navigate to profile page when implemented
+    navigate('/profile')
   }
 
   const handleLogoutClick = () => {
