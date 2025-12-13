@@ -1,15 +1,28 @@
 import {
-    BellOutlined,
-    MessageOutlined,
-    PlayCircleOutlined,
-    SearchOutlined,
+  BellOutlined,
+  MessageOutlined,
+  PlayCircleOutlined,
+  SearchOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Input, Typography } from 'antd'
+import { Button, Input, Typography } from 'antd'
+import { useDispatch } from 'react-redux'
+import UserProfilePopover from '../../../components/UserProfilePopover'
+import { logoutRequest } from '../../logout/logoutSlice'
 import '../Dashboard.css'
 
 const { Title } = Typography
 
 function DashboardHeader() {
+  const dispatch = useDispatch()
+
+  const handleProfileClick = () => {
+    // Navigate to profile page when implemented
+  }
+
+  const handleLogoutClick = () => {
+    dispatch(logoutRequest())
+  }
+
   return (
     <header className="dashboard-header">
       <div className="dashboard-header-left">
@@ -54,9 +67,11 @@ function DashboardHeader() {
           />
         </div>
 
-        <Avatar
+        <UserProfilePopover
           size={40}
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFXUWnBEsX5liTUy2PJJ56e62aiI_vOCYt7X5WChinGbV39owQDu7xAqqvmTolqQBWRi9NzQxAYPgvoHvPqGJXlvnvZiu1WMQQ0v58fs1_kYCplzsSr2R2atw3gacr68qaQpzmOiKAcd160oALsHHQsbuVkp0QOzgGRx_CICEsjAOQSX5SW5uiajSRPX-7vAVU63swG_KnTegsavoMrdkEphoUe7qfDgESmzmgefsWDQ1Jz9uYcw6ELW5p1TDKaYg3A0HeSNUNkv4"
+          avatarSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuDFXUWnBEsX5liTUy2PJJ56e62aiI_vOCYt7X5WChinGbV39owQDu7xAqqvmTolqQBWRi9NzQxAYPgvoHvPqGJXlvnvZiu1WMQQ0v58fs1_kYCplzsSr2R2atw3gacr68qaQpzmOiKAcd160oALsHHQsbuVkp0QOzgGRx_CICEsjAOQSX5SW5uiajSRPX-7vAVU63swG_KnTegsavoMrdkEphoUe7qfDgESmzmgefsWDQ1Jz9uYcw6ELW5p1TDKaYg3A0HeSNUNkv4"
+          onProfileClick={handleProfileClick}
+          onLogoutClick={handleLogoutClick}
         />
       </div>
     </header>

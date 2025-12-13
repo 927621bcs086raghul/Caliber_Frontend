@@ -25,3 +25,8 @@ export const checkAuth = async () => {
   const response = await apiClient.get('/auth/check')
   return response.data
 }
+
+export const logoutUser = async () => {
+  const response = await apiClient.post('/auth/logout')
+  return response.data
+}

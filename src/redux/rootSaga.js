@@ -1,17 +1,22 @@
 import { message } from 'antd'
 import { all, call, put, takeLatest } from 'redux-saga/effects'
-import { loginUser, registerUser } from '../api/authApi'
+import { loginUser, logoutUser, registerUser } from '../api/authApi'
 import { uploadVideo } from '../api/videoApi'
-import { loginFailure, loginRequest, loginSuccess } from '../authentication/login/loginSlice'
+import { loginFailure, logout as loginLogout, loginRequest, loginSuccess } from '../authentication/login/loginSlice'
 import {
-    registerFailure,
-    registerRequest,
-    registerSuccess,
+  logoutFailure,
+  logoutRequest,
+  logoutSuccess,
+} from '../authentication/logout/logoutSlice'
+import {
+  registerFailure,
+  registerRequest,
+  registerSuccess,
 } from '../authentication/register/RegisterSlice'
 import {
-    videoUploadFailure,
-    videoUploadRequest,
-    videoUploadSuccess,
+  videoUploadFailure,
+  videoUploadRequest,
+  videoUploadSuccess,
 } from '../authentication/videoUpload/videoUploadSlice'
 
 function* handleRegister(action) {
@@ -55,6 +60,23 @@ function* handleVideoUpload(action) {
   }
 }
 
+function* handleLogout() {
+  try {
+    yield call(logoutUser)
+    yield put(logoutSuccess())
+    // Clear login slice auth state
+    yield put(loginLogout())
+    message.success('Logged out successfully')
+    // Redirect to login page
+    window.location.href = '/login'
+  } catch (error) {
+    const msg =
+      error?.response?.data?.message || error?.message || 'Failed to logout'
+    yield put(logoutFailure(msg))
+    message.error(msg)
+  }
+}
+
 function* watchRegister() {
   yield takeLatest(registerRequest.type, handleRegister)
 }
@@ -67,10 +89,15 @@ function* watchVideoUpload() {
   yield takeLatest(videoUploadRequest.type, handleVideoUpload)
 }
 
+function* watchLogout() {
+  yield takeLatest(logoutRequest.type, handleLogout)
+}
+
 export default function* rootSaga() {
   yield all([
     watchLogin(),
     watchRegister(),
     watchVideoUpload(),
+    watchLogout(),
   ])
 }

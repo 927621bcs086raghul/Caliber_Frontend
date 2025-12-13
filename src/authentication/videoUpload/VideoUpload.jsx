@@ -1,14 +1,16 @@
 import {
-    BellOutlined,
-    CloseOutlined,
-    CloudUploadOutlined,
-    EditOutlined,
-    VideoCameraOutlined
+  BellOutlined,
+  CloseOutlined,
+  CloudUploadOutlined,
+  EditOutlined,
+  VideoCameraOutlined
 } from '@ant-design/icons'
-import { Avatar, Button, Form, Input, Layout, Progress, Typography, Upload } from 'antd'
+import { Button, Form, Input, Layout, Progress, Typography, Upload } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import UserProfilePopover from '../../components/UserProfilePopover'
+import { logoutRequest } from '../logout/logoutSlice'
 import './VideoUpload.css'
 import { resetVideoUploadState, videoUploadRequest } from './videoUploadSlice'
 
@@ -25,6 +27,14 @@ function VideoUpload() {
   const dispatch = useDispatch()
   const { loading, success } = useSelector((state) => state.videoUpload || {})
   const navigate = useNavigate()
+
+  const handleProfileClick = () => {
+    // Navigate to profile page when implemented
+  }
+
+  const handleLogoutClick = () => {
+    dispatch(logoutRequest())
+  }
 
   const handleUploadChange = (info) => {
     let newFileList = [...info.fileList]
@@ -95,7 +105,7 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
                 <VideoCameraOutlined />
               </div>
               <Title level={4} className="upload-logo-title">
-                StreamFlow
+              StreamHub
               </Title>
             </div>
           </div>
@@ -116,9 +126,10 @@ console.log('Publishing video with details:', { values, videoFile, thumbnailFile
               icon={<BellOutlined />}
               className="upload-icon-button"
             />
-            <Avatar
-              size={36}
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB26uZbBxLN8PwmUI4VTsmeX6AE-GJognI0MGKjDHI84QDGQFiztsKURINyT8uqybQ-jAwZlJvCiUwXRWku1Jh0-mnvr4HyAEVnXX0bLQA31hXXZNG8nZ6PrGmPCtqs56TuHnoBGT7k9sijxUxfdAlOZBi3pbS71JWbi9MtGvuLo1TsmVxFlds2VLQJlMOX6waxB83JaOe8mwjT0DrtYnoQZxXyatnNyhftYShxHOV0ic6-V0FHA2tXlacSC1cbQywddfpOaLboc5s"
+            <UserProfilePopover
+              avatarSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuB26uZbBxLN8PwmUI4VTsmeX6AE-GJognI0MGKjDHI84QDGQFiztsKURINyT8uqybQ-jAwZlJvCiUwXRWku1Jh0-mnvr4HyAEVnXX0bLQA31hXXZNG8nZ6PrGmPCtqs56TuHnoBGT7k9sijxUxfdAlOZBi3pbS71JWbi9MtGvuLo1TsmVxFlds2VLQJlMOX6waxB83JaOe8mwjT0DrtYnoQZxXyatnNyhftYShxHOV0ic6-V0FHA2tXlacSC1cbQywddfpOaLboc5s"
+              onProfileClick={handleProfileClick}
+              onLogoutClick={handleLogoutClick}
             />
           </div>
         </div>

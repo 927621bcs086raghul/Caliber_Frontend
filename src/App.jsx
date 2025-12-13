@@ -1,8 +1,8 @@
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
+import LogoutLoader from './components/LogoutLoader'
 import useAuth from './hooks/useAuth'
-
 const Login = lazy(() => import('./authentication/login/Login'))
 const Register = lazy(() => import('./authentication/register/Register'))
 const Dashboard = lazy(() => import('./authentication/dashboard/Dashboard'))
@@ -13,7 +13,7 @@ function PrivateRoute({ component }) {
   if (loading || isAuthenticated === null) {
     return <div>Loading...</div>
   }
-  console.log('PrivateRoute rendered, isAuthenticated:', isAuthenticated) 
+  console.log('PrivateRoute rendered, isAuthenticated:', isAuthenticated)
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />
   }
@@ -37,6 +37,7 @@ function PublicRoute({ component }) {
 function App() {
   return (
     <Router>
+      <LogoutLoader />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
@@ -58,9 +59,9 @@ function App() {
           />
           <Route path="*" element={<Navigate to="/login" replace />} />
 
-        </Routes>
-      </Suspense>
-    </Router>
+         </Routes>
+       </Suspense>
+     </Router>
   )
 }
 
