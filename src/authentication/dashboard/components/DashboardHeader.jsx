@@ -1,8 +1,6 @@
 import {
-  BellOutlined,
-  MessageOutlined,
   PlayCircleOutlined,
-  SearchOutlined,
+  SearchOutlined
 } from '@ant-design/icons'
 import { Button, Input, Typography } from 'antd'
 import { useDispatch } from 'react-redux'
@@ -53,21 +51,7 @@ function DashboardHeader() {
           className="dashboard-icon-button dashboard-icon-button-mobile"
         />
 
-        <div className="dashboard-header-actions">
-          <div className="dashboard-bell-wrapper">
-            <Button
-              type="text"
-              icon={<BellOutlined />}
-              className="dashboard-icon-button"
-            />
-            <span className="dashboard-bell-badge" />
-          </div>
-          <Button
-            type="text"
-            icon={<MessageOutlined />}
-            className="dashboard-icon-button"
-          />
-        </div>
+
 
         <UserProfilePopover
           size={40}

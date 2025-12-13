@@ -85,9 +85,10 @@ function ProfileDetails() {
       <header className="profile-nav">
         <div className="profile-nav-left">
           <div className="profile-brand">
-            <div className="profile-brand-icon">
-              <PlayCircleOutlined />
-            </div>
+            <div className="dashboard-logo-icon">
+            <PlayCircleOutlined />
+          </div>
+            
             <h2 className="profile-brand-title">StreamHub</h2>
           </div>
         </div>
