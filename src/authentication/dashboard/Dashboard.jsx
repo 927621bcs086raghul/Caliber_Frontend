@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { io } from 'socket.io-client'
 import AppSidebar from '../../components/AppSidebar'
+import useDebounce from '../../hooks/useDebounce'
 import DashboardHeader from './components/DashboardHeader'
 import DashboardTrendingGrid from './components/DashboardTrendingGrid'
 import './Dashboard.css'
@@ -10,6 +11,24 @@ const socket = io('http://localhost:5000')
 
 function Dashboard() {
   const [liveVideos, setLiveVideos] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const debouncedSearchTerm = useDebounce(searchTerm, 400)
+
+  const filteredVideos = useMemo(() => {
+    const q = debouncedSearchTerm.trim().toLowerCase()
+    if (!q) return liveVideos
+
+    return liveVideos.filter((video) => {
+      const title = (video.title || '').toLowerCase()
+      const description = (video.description || '').toLowerCase()
+      const userName = (video.User?.name || '').toLowerCase()
+      return (
+        title.includes(q) ||
+        description.includes(q) ||
+        userName.includes(q)
+      )
+    })
+  }, [liveVideos, debouncedSearchTerm])
 
   useEffect(() => {
     // Socket connection diagnostics
@@ -58,7 +77,10 @@ function Dashboard() {
   return (
     <div className="dashboard-root">
       {/* Header */}
-      <DashboardHeader />
+      <DashboardHeader
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+      />
 
       {/* Body layout */}
       <div className="dashboard-layout">
@@ -75,7 +97,7 @@ function Dashboard() {
               </div>
             </div>
               {/* Trending grid */}
-            <DashboardTrendingGrid videos={liveVideos} />
+            <DashboardTrendingGrid videos={filteredVideos} />
           </div>
         </main>
       </div>

@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import '../Dashboard.css'
 
 const { Title } = Typography
-
 function DashboardTrendingGrid({ videos = [] }) {
   const navigate = useNavigate()
 
-  const handleCardClick = (id) => {
-    if (!id) return
-    navigate(`/videos/${id}`)
+  const handleCardClick = (video) => {
+    if (!video?.id) return
+    // Pass the full video object so the player does not need to refetch
+    navigate(`/videos/${video.id}`, { state: { video } })
   }
   return (
     <section>
@@ -19,7 +19,7 @@ function DashboardTrendingGrid({ videos = [] }) {
          
       </div>
 
-      <div className="dashboard-trending-grid">
+      <div className="dashboard-trending-grid" >
         {videos.length === 0 ? (
           <p style={{ padding: '8px 0', color: '#8c8c8c' }}>No videos found.</p>
         ) : (
@@ -27,11 +27,12 @@ function DashboardTrendingGrid({ videos = [] }) {
             <article
               key={video.id}
               className="dashboard-card"
-              onClick={() => handleCardClick(video.id)}
+              onClick={() => handleCardClick(video)}
               style={{ cursor: 'pointer' }}
             >
               <div
                 className="dashboard-card-media"
+                onClick={() => navigate(`/video/${video.id}`)}
                 style={
                   video.thumbnailPath
                     ? { backgroundImage: `url(http://localhost:5000${video.thumbnailPath})` }

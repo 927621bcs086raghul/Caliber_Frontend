@@ -2,7 +2,7 @@ import {
   CloseOutlined,
   CloudUploadOutlined,
   EditOutlined,
-  VideoCameraOutlined
+  PlayCircleOutlined
 } from '@ant-design/icons'
 import { Button, Form, Input, Layout, Progress, Typography, Upload } from 'antd'
 import { useEffect, useState } from 'react'
@@ -133,14 +133,13 @@ function VideoUpload() {
         <div className="upload-header-inner">
           <div className="upload-header-left">
             <div className="upload-logo-group">
-              <div className="upload-logo-icon">
-                <VideoCameraOutlined />
-              </div>
-              <Title level={4} className="upload-logo-title">
-              StreamHub
-              
-              </Title>
-            </div>
+                        <div className="dashboard-logo-icon">
+                          <PlayCircleOutlined />
+                        </div>
+                        <Title level={4} className="dashboard-logo-title">
+                          StreamHub
+                        </Title>
+                      </div>
           </div>
 
           <div className="upload-header-right">
