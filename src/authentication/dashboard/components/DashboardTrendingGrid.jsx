@@ -1,10 +1,11 @@
 import { EllipsisOutlined } from '@ant-design/icons'
 import { Avatar, Button, Typography } from 'antd'
+import { useNavigate } from 'react-router-dom';
 import '../Dashboard.css'
 
 const { Title } = Typography
-
 function DashboardTrendingGrid({ videos = [] }) {
+  const navigate = useNavigate();
   return (
     <section>
       <div className="dashboard-trending-header">
@@ -12,7 +13,7 @@ function DashboardTrendingGrid({ videos = [] }) {
       
       </div>
 
-      <div className="dashboard-trending-grid">
+      <div className="dashboard-trending-grid" >
         {videos.length === 0 ? (
           <p style={{ padding: '8px 0', color: '#8c8c8c' }}>No videos found.</p>
         ) : (
@@ -23,6 +24,7 @@ function DashboardTrendingGrid({ videos = [] }) {
             >
               <div
                 className="dashboard-card-media"
+                onClick={() => navigate(`/video/${video.id}`)}
                 style={
                   video.thumbnailPath
                     ? { backgroundImage: `url(http://localhost:5000${video.thumbnailPath})` }
