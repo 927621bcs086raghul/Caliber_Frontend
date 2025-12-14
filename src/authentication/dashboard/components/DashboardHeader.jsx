@@ -1,4 +1,4 @@
-import { PlayCircleOutlined, SearchOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import { MenuFoldOutlined, MenuUnfoldOutlined, PlayCircleOutlined, SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Typography } from 'antd'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -21,8 +21,10 @@ function DashboardHeader({
   const navigate = useNavigate()
   const location = useLocation()
   
-  // Hide search bar on video upload and profile pages
-  const hideSearchBar = location.pathname === '/videoUpload' || location.pathname === '/profile'
+  // Hide search bar on specific pages regardless of prop
+  const hideSearchByRoute =
+    location.pathname === '/videoUpload' || location.pathname === '/draftVideo'
+  const shouldHideSearch = hideSearch || hideSearchByRoute
 
   const handleProfileClick = () => {
     navigate('/profile')
@@ -58,7 +60,7 @@ function DashboardHeader({
           </Title>
         </div>
 
-        {!hideSearch && (
+        {!shouldHideSearch && (
           <div className="dashboard-search-wrapper">
             <Input
               className="dashboard-search-input"
@@ -81,7 +83,7 @@ function DashboardHeader({
           </Link>
         )}
 
-        {!hideSearch && (
+        {!shouldHideSearch && (
           <Button
             type="text"
             icon={<SearchOutlined />}

@@ -231,6 +231,15 @@
   overflow-x: auto;
 }
 
+.dashboard-filter-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.dashboard-filter-chips {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .dashboard-chip-primary {
   height: 32px;
   padding-inline: 16px;
@@ -241,6 +250,7 @@
   align-items: center;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .dashboard-chip {
@@ -254,12 +264,14 @@
   font-size: 14px;
   font-weight: 500;
   color: #181111;
+  cursor: pointer;
 }
 
 .dashboard-chip-live {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
 }
 
 .dashboard-chip-live-icon {

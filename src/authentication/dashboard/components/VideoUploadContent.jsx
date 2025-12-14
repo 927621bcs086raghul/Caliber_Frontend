@@ -78,6 +78,7 @@ function VideoUploadContent() {
   // Handle publish click
   const handlePublishClick = () => {
     form.setFieldsValue({ isDraft: false })
+    console.log('Publishing video',form.getFieldsValue()  )
     form.submit()
   }
 

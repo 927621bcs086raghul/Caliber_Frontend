@@ -1,12 +1,9 @@
-import { useEffect, useState,useMemo } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { io } from 'socket.io-client'
-import AppSidebar from '../../components/AppSidebar'
 import useDebounce from '../../hooks/useDebounce'
-import DashboardHeader from '../dashboard/components/DashboardHeader'
 import '../draftVideo/draftVideo.css'
-import  DraftGrid from  './components/DraftGrid';
-import axios from 'axios';
+import DraftGrid from './components/DraftGrid'
 
 const socket = io('http://localhost:5000')
 
@@ -53,10 +50,28 @@ const location = useLocation()
     .then((res) => res.json())
     .then((data) => {
       console.log('Initial videos load:', data);
-      if (Array.isArray(data)) {
-        setLiveVideos(data.reverse()); // newest first
-      } else {
-        console.warn('Unexpected videos payload:', data);
+      try {
+        const stored = localStorage.getItem('loginUser')
+        const parsed = stored ? JSON.parse(stored) : null
+        const currentUserId = parsed?.user?.id
+
+        if (Array.isArray(data)) {
+          const filtered = currentUserId
+            ? data.filter((video) =>
+                video.User?.id === currentUserId ||
+                video.userId === currentUserId ||
+                video.UserId === currentUserId
+              )
+            : data
+          setLiveVideos(filtered.reverse()) // newest first
+        } else {
+          console.warn('Unexpected videos payload:', data)
+        }
+      } catch (e) {
+        console.error('Failed to filter videos by current user', e)
+        if (Array.isArray(data)) {
+          setLiveVideos(data.reverse())
+        }
       }
     })
     .catch((err) => console.error('Failed to load videos', err));
@@ -66,7 +81,26 @@ const location = useLocation()
 
   const handleVideoUploaded = (video) => {
     console.log('Received videoUploaded:', video);
-    setLiveVideos((prev) => [video, ...prev]);
+    try {
+      const stored = localStorage.getItem('loginUser')
+      const parsed = stored ? JSON.parse(stored) : null
+      const currentUserId = parsed?.user?.id
+
+      if (
+        currentUserId &&
+        !(
+          video.User?.id === currentUserId ||
+          video.userId === currentUserId ||
+          video.UserId === currentUserId
+        )
+      ) {
+        return
+      }
+    } catch (e) {
+      console.error('Failed to check video user for socket event', e)
+    }
+
+    setLiveVideos((prev) => [video, ...prev])
   };
 
   socket.on('videoUploaded', handleVideoUploaded);

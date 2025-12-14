@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import { all, call, put, select, takeLatest } from 'redux-saga/effects'
 import { getProfileById, loginUser, logoutUser, registerUser, updateProfile } from '../api/authApi'
-import { getVideosByUser, uploadVideo } from '../api/videoApi'
+import { getVideoCategories, getVideosByUser, uploadVideo } from '../api/videoApi'
 import { loginFailure, logout as loginLogout, loginRequest, loginSuccess } from '../authentication/login/loginSlice'
 import {
   logoutFailure,
@@ -24,6 +24,11 @@ import {
   registerRequest,
   registerSuccess,
 } from '../authentication/register/RegisterSlice'
+import {
+  videoCategoriesFailure,
+  videoCategoriesRequest,
+  videoCategoriesSuccess,
+} from '../authentication/videoCategories/videoCategoriesSlice'
 import {
   videoUploadFailure,
   videoUploadRequest,
@@ -153,6 +158,18 @@ function* handleProfileUserVideosFetch(action) {
   }
 }
 
+function* handleVideoCategories() {
+  try {
+    const data = yield call(getVideoCategories)
+    yield put(videoCategoriesSuccess(data))
+  } catch (error) {
+    const msg =
+      error?.response?.data?.message || error?.message || 'Failed to load categories'
+    yield put(videoCategoriesFailure(msg))
+    message.error(msg)
+  }
+}
+
 function* watchRegister() {
   yield takeLatest(registerRequest.type, handleRegister)
 }
@@ -181,6 +198,10 @@ function* watchProfileUserVideosFetch() {
   yield takeLatest(profileUserVideosRequest.type, handleProfileUserVideosFetch)
 }
 
+function* watchVideoCategories() {
+  yield takeLatest(videoCategoriesRequest.type, handleVideoCategories)
+}
+
 export default function* rootSaga() {
   yield all([
     watchLogin(),
@@ -190,5 +211,6 @@ export default function* rootSaga() {
     watchProfileUpdate(),
     watchProfileFetch(),
     watchProfileUserVideosFetch(),
+    watchVideoCategories(),
   ])
 }
