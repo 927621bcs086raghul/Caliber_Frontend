@@ -10,7 +10,7 @@ function LoginHeader() {
         <PlayCircleOutlined />
       </div>
       <Title level={4}>
-        VideoConnect
+        streamHub
       </Title>
     </div>
   )

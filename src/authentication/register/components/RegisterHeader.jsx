@@ -11,7 +11,7 @@ function RegisterHeader({ onLoginClick }) {
           <PlayCircleOutlined />
         </div>
         <Title level={4} className="register-logo-title">
-          StreamConnect
+          StreamHub
         </Title>
       </div>
       <div className="register-header-right">
