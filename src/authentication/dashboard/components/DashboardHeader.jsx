@@ -1,4 +1,4 @@
-import { PlayCircleOutlined, SearchOutlined } from '@ant-design/icons'
+import { PlayCircleOutlined, SearchOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Button, Input, Typography } from 'antd'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -8,7 +8,15 @@ import '../Dashboard.css'
 
 const { Title, Link } = Typography
 
-function DashboardHeader({ searchTerm, onSearchChange, hideSearch = false, showDashboardLink = false }) {
+function DashboardHeader({
+  searchTerm,
+  onSearchChange,
+  hideSearch = false,
+  showDashboardLink = false,
+  collapsed,
+  onToggleCollapse,
+  showToggle = true
+}) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -31,6 +39,16 @@ function DashboardHeader({ searchTerm, onSearchChange, hideSearch = false, showD
   return (
     <header className="dashboard-header">
       <div className="dashboard-header-left">
+        {/* Sidebar toggle button - before logo */}
+        {showToggle && (
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={onToggleCollapse}
+            className="sidebar-toggle-button"
+          />
+        )}
+        
         <div className="dashboard-logo-group" onClick={handleLogoClick}>
           <div className="dashboard-logo-icon">
             <PlayCircleOutlined />

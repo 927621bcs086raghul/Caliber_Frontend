@@ -15,9 +15,30 @@ function DashboardLayout() {
   const [liveVideos, setLiveVideos] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 400)
+  const [collapsed, setCollapsed] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   
   // Hide sidebar on profile page
   const isProfilePage = location.pathname === '/profile'
+
+  // Handle window resize for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth
+      setIsMobile(width < 1024)
+      // Auto-collapse on small screens
+      if (width < 1024) {
+        setCollapsed(true)
+      }
+    }
+
+    // Initial check
+    handleResize()
+
+    // Add resize listener
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     // Socket connection diagnostics
@@ -69,12 +90,15 @@ function DashboardLayout() {
       <DashboardHeader
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
+        collapsed={collapsed}
+        onToggleCollapse={() => setCollapsed(!collapsed)}
+        showToggle={!isProfilePage}
       />
 
       {/* Body layout */}
       <div className="dashboard-layout">
         {/* Left sidebar - hidden on profile page */}
-        {!isProfilePage && <AppSidebar />}
+        {!isProfilePage && <AppSidebar collapsed={collapsed} />}
 
         {/* Main */}
         <main className={isProfilePage ? "dashboard-main dashboard-main-full" : "dashboard-main"}>
