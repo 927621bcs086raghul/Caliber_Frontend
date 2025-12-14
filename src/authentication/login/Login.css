@@ -56,8 +56,10 @@
 .login-primary-button {
   height: 48px;
   font-weight: 500;
+  background-color: #ea2a33;
 }
-
+.login-primary-button:hover {
+  background-color: #c21b22 !important;}
 .login-divider {
   margin: 32px 0 !important;
 }
