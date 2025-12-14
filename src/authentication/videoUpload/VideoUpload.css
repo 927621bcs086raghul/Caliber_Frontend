@@ -121,7 +121,7 @@
 }
 
 .upload-main {
-  padding: 24px 16px 40px;
+  padding: 16px 12px 40px;
 }
 
 .upload-main-inner {
@@ -129,29 +129,31 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding-top: 20px;
+  gap: 20px;
+  padding-top: 16px;
 }
 
 .upload-page-heading {
-  padding-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid #e5e0e0;
 }
 
 .upload-page-title {
   margin-bottom: 4px;
+  font-size: 22px;
 }
 
 .upload-page-subtitle {
   color: #886364;
+  font-size: 13px;
 }
 
 .upload-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 16px;
   align-items: flex-start;
-  padding-top: 20px;
+  padding-top: 16px;
 }
 
 .upload-left-column {
@@ -272,7 +274,7 @@
   background-color: #ffffff;
   border-radius: 12px;
   border: 1px solid #e5e0e0;
-  padding: 24px 20px;
+  padding: 16px 14px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
@@ -331,7 +333,7 @@
 
 .upload-thumbnails-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -352,8 +354,9 @@ justify-content: center;
 }
 
 .thumbnail-preview {
-  width: 160px;
-  height: 90px;           /* 16:9 */
+  width: 100%;
+  max-width: 160px;
+  height: 90px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #d9d9d9;
@@ -440,9 +443,14 @@ justify-content: center;
 
 .upload-form-footer {
   display: flex;
-  flex-direction: column-reverse;
-  gap: 8px;
-  margin-top: 8px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.upload-publish-button,
+.save-draft-button {
+  width: 100%;
 }
 
 .upload-cancel-button {
@@ -470,17 +478,56 @@ justify-content: center;
   }
 }
 
+@media (min-width: 640px) {
+  .upload-thumbnails-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .upload-page-title {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 768px) {
+  .upload-main {
+    padding: 20px 16px 40px;
+  }
+  
+  .upload-main-inner {
+    gap: 24px;
+    padding-top: 20px;
+  }
+  
+  .upload-grid {
+    gap: 20px;
+  }
+  
+  .upload-right-column {
+    padding: 20px 18px;
+  }
+}
+
 @media (min-width: 1024px) {
+  .upload-main {
+    padding: 24px 16px 40px;
+  }
+  
   .upload-grid {
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 24px;
   }
 
   .upload-form-footer {
     flex-direction: row;
     justify-content: flex-end;
   }
+  
+  .upload-publish-button,
+  .save-draft-button {
+    width: auto;
+  }
 
   .upload-right-column {
-    padding-inline: 32px;
+    padding: 24px 32px;
   }
 }
