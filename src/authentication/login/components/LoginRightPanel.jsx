@@ -10,7 +10,7 @@ function LoginRightPanel() {
       <div className="login-right-content">
         <Tag className="login-badge">
           <span className="login-badge-dot" />
-          Live Streaming
+          Video Streaming
         </Tag>
 
         <Title level={2} className="login-right-title">
