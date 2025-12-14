@@ -73,20 +73,34 @@ function VideoUploadContent() {
     }
   }
 
-  const handlePublish = (values) => {
+  // Handle publish click
+  const handlePublishClick = () => {
+    form.setFieldsValue({ isDraft: false })
+    form.submit()
+  }
+
+  // Handle save draft click
+  const handleDraftClick = () => {
+    form.setFieldsValue({ isDraft: true })
+    form.submit()
+  }
+
+  // Single submit handler
+  const handleFinish = (values) => {
     if (!fileList.length) {
-      // No video selected; do nothing for now
       return
     }
 
     const videoFile = fileList[0].originFileObj || fileList[0]
-    console.log('Publishing video with details:', { values, videoFile, thumbnailFile })
+    console.log('Submitting video with details:', { values, videoFile, thumbnailFile, isDraft: values.isDraft })
+    
     dispatch(
       videoUploadRequest({
         title: values.title,
         description: values.description,
         videoFile,
         thumbnailFile,
+        isDraft: values.isDraft
       }),
     )
   }
@@ -200,8 +214,13 @@ function VideoUploadContent() {
               form={form}
               layout="vertical"
               className="upload-form"
-              onFinish={handlePublish}
+              onFinish={handleFinish}
             >
+              {/* Hidden field to track draft/publish */}
+              <Form.Item name="isDraft" hidden>
+                <Input />
+              </Form.Item>
+
               <div className="upload-section">
                 <div className="upload-section-header">
                   <Title level={4} className="upload-section-title">
@@ -273,12 +292,21 @@ function VideoUploadContent() {
               <div className="upload-form-footer">
                 <Button
                   type="primary"
-                  htmlType="submit"
                   loading={loading}
                   disabled={loading}
                   className="upload-publish-button"
+                  onClick={handlePublishClick}
                 >
                   Publish Video
+                </Button>
+                <Button
+                  type="default"
+                  loading={loading}
+                  disabled={loading}
+                  className="save-draft-button"
+                  onClick={handleDraftClick}
+                >
+                  Save Draft
                 </Button>
               </div>
             </Form>
