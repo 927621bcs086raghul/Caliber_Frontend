@@ -35,6 +35,7 @@
   align-items: center;
   gap: 16px;
   color: #ea2a33;
+  cursor: pointer;
 }
 
 .dashboard-logo-icon {
@@ -51,6 +52,9 @@
   margin: 0;
   font-size: 20px;
   font-weight: 700;
+  text-align: center;
+  justify-content: center;
+  display: flex;
 }
 
 .dashboard-search-wrapper {
@@ -152,10 +156,15 @@
   background-color: #f8f6f6;
 }
 
+.dashboard-main-full {
+  margin-left: 0 !important;
+}
+
 .dashboard-main-inner {
   max-width: 1400px;
   margin: 0 auto;
   padding-bottom: 40px;
+  padding-top: 20px;
 }
 
 .dashboard-filter-bar {
@@ -164,9 +173,8 @@
   z-index: 10;
   background-color: rgba(248, 246, 246, 0.95);
   backdrop-filter: blur(6px);
-  padding: 16px 16px;
+  padding: 0 16px 16px 16px;
   border-bottom: 1px solid #f4f0f0;
-  margin-bottom: 16px;
 }
 
 .dashboard-filter-chips {
@@ -371,7 +379,7 @@
 }
 
 .dashboard-trending-grid {
-  padding: 0 16px;
+  padding: 16px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;

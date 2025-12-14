@@ -5,10 +5,11 @@ import LogoutLoader from './components/LogoutLoader'
 import useAuth from './hooks/useAuth'
 const Login = lazy(() => import('./authentication/login/Login'))
 const Register = lazy(() => import('./authentication/register/Register'))
+const DashboardLayout = lazy(() => import('./authentication/dashboard/DashboardLayout'))
 const Dashboard = lazy(() => import('./authentication/dashboard/Dashboard'))
-const VideoUpload = lazy(() => import('./authentication/videoUpload/VideoUpload'));
-const ProfileDetails = lazy(() => import('./authentication/profileDetails/ProfileDetails'));
-const  VideoPlayer = lazy(() => import('./authentication/videoStream/videoPlayer'))
+const VideoUploadPage = lazy(() => import('./authentication/dashboard/pages/VideoUploadPage'))
+const ProfileDetails = lazy(() => import('./authentication/profileDetails/ProfileDetails'))
+const VideoPlayer = lazy(() => import('./authentication/videoStream/videoPlayer'))
 function PrivateRoute({ component }) {
   const { isAuthenticated, loading } = useAuth()
 
@@ -52,27 +53,18 @@ function App() {
             element={<PublicRoute component={<Register />} />}
           />
           <Route
-            path="/dashboard"
-            element={<PrivateRoute component={<Dashboard />} />}
-          />
+            path="/"
+            element={<PrivateRoute component={<DashboardLayout />} />}
+          >
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="videoUpload" element={<VideoUploadPage />} />
+            <Route path="profile" element={<ProfileDetails />} />
+          </Route>
           <Route
-          path='/videoUpload'
-          element={<PrivateRoute component={<VideoUpload />} />}
-          />
-          <Route
-          path='/videoUpload'
-          element={<PrivateRoute component={<VideoUpload />} />}
-          />
-          <Route
-            path="/profile"
-            element={<PrivateRoute component={<ProfileDetails />} />}
-          />
-           <Route
             path="/video/:id"
-            element={<PrivateRoute component={<VideoPlayer/>} />}/>
-
+            element={<PrivateRoute component={<VideoPlayer/>} />}
+          />
           <Route path="*" element={<Navigate to="/login" replace />} />
-
          </Routes>
        </Suspense>
      </Router>

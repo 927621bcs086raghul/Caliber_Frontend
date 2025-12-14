@@ -1,7 +1,7 @@
 import { PlayCircleOutlined, SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Typography } from 'antd'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import UserProfilePopover from '../../../components/UserProfilePopover'
 import { logoutRequest } from '../../logout/logoutSlice'
 import '../Dashboard.css'
@@ -11,6 +11,10 @@ const { Title, Link } = Typography
 function DashboardHeader({ searchTerm, onSearchChange, hideSearch = false, showDashboardLink = false }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+  
+  // Hide search bar on video upload and profile pages
+  const hideSearchBar = location.pathname === '/videoUpload' || location.pathname === '/profile'
 
   const handleProfileClick = () => {
     navigate('/profile')
@@ -20,14 +24,18 @@ function DashboardHeader({ searchTerm, onSearchChange, hideSearch = false, showD
     dispatch(logoutRequest())
   }
 
+  const handleLogoClick = () => {
+    navigate('/dashboard')
+  }
+
   return (
     <header className="dashboard-header">
       <div className="dashboard-header-left">
-        <div className="dashboard-logo-group">
+        <div className="dashboard-logo-group" onClick={handleLogoClick}>
           <div className="dashboard-logo-icon">
             <PlayCircleOutlined />
           </div>
-          <Title level={4} className="dashboard-logo-title">
+          <Title level={4}>
             StreamHub
           </Title>
         </div>
