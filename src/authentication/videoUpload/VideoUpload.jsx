@@ -98,6 +98,26 @@ function VideoUpload() {
         description: values.description,
         videoFile,
         thumbnailFile,
+        isDraft : false
+      }),
+    )
+  }
+
+  const handleDraft = (values) => {
+    if (!fileList.length) {
+      // No video selected; do nothing for now
+      return
+    }
+
+    const videoFile = fileList[0].originFileObj || fileList[0]
+    console.log('Publishing video with details:', { values, videoFile, thumbnailFile })
+    dispatch(
+      videoUploadRequest({
+        title: values.title,
+        description: values.description,
+        videoFile,
+        thumbnailFile,
+        isDraft : true
       }),
     )
   }
@@ -161,6 +181,7 @@ function VideoUpload() {
               loading={loading}
               thumbnailFile={thumbnailFile}
               onPublish={handlePublish}
+              onSaveDraft = {handleDraft}
               onThumbnailChange={handleThumbnailChange}
             />
           </div>

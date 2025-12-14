@@ -3,15 +3,50 @@ import { Button, Form, Input, Typography, Upload } from 'antd'
 
 const { Title, Text } = Typography
 
-function UploadRightColumn({ form, loading, thumbnailFile, onPublish, onThumbnailChange }) {
+function UploadRightColumn({
+  form,
+  loading,
+  thumbnailFile,
+  onPublish,
+  onThumbnailChange,
+  onSaveDraft,
+}) {
+
+  // 🔑 Handle publish click
+  const handlePublish = () => {
+    form.setFieldsValue({ isDraft: false });
+    form.submit();
+  };
+
+  // 🔑 Handle save draft click
+  const handleSaveDraft = () => {
+    form.setFieldsValue({ isDraft: true });
+    form.submit();
+  };
+
+  // 🔑 Single submit handler
+  const handleFinish = (values) => {
+    if (values.isDraft) {
+      onSaveDraft(values);
+    } else {
+      onPublish(values);
+    }
+  };
+
   return (
     <div className="upload-right-column">
       <Form
         form={form}
         layout="vertical"
         className="upload-form"
-        onFinish={onPublish}
+        onFinish={handleFinish}
       >
+
+        {/* 🔒 Hidden field to track draft/publish */}
+        <Form.Item name="isDraft" hidden>
+          <Input />
+        </Form.Item>
+
         <div className="upload-section">
           <div className="upload-section-header">
             <Title level={4} className="upload-section-title">
@@ -24,8 +59,12 @@ function UploadRightColumn({ form, loading, thumbnailFile, onPublish, onThumbnai
             label="Title (required)"
             name="title"
             className="upload-form-item"
+            rules={[{ required: true, message: 'Title is required' }]}
           >
-            <Input placeholder="Give your video a catchy title" maxLength={100} />
+            <Input
+              placeholder="Give your video a catchy title"
+              maxLength={100}
+            />
           </Form.Item>
 
           <Form.Item
@@ -63,6 +102,7 @@ function UploadRightColumn({ form, loading, thumbnailFile, onPublish, onThumbnai
                 </div>
               )}
             </div>
+
             <Upload
               accept="image/png,image/jpeg,image/jpg,image/webp,image/*"
               showUploadList={false}
@@ -82,12 +122,22 @@ function UploadRightColumn({ form, loading, thumbnailFile, onPublish, onThumbnai
         <div className="upload-form-footer">
           <Button
             type="primary"
-            htmlType="submit"
             loading={loading}
             disabled={loading}
             className="upload-publish-button"
+            onClick={handlePublish}
           >
             Publish Video
+          </Button>
+
+          <Button
+            type="primary"
+            loading={loading}
+            disabled={loading}
+            className="save-Draft-button"
+            onClick={handleSaveDraft}
+          >
+            Save Draft
           </Button>
         </div>
       </Form>
