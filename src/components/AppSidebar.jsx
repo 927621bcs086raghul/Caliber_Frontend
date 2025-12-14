@@ -1,4 +1,4 @@
-import { HomeFilled, UploadOutlined } from '@ant-design/icons'
+import { HomeFilled, UploadOutlined, FileTextOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -17,23 +17,22 @@ const sidebarItems = [
   },
    {
     key: 'draft',
-    icon: <draftVideo />,
+    icon: <FileTextOutlined />,
     label: 'Drafted video',
   }
 ]
 
-function AppSidebar() {
+function AppSidebar({ collapsed }) {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const getSelectedKey = (pathname) => {
+    if (pathname.startsWith('/dashboard')) return 'home'
+    if (pathname.startsWith('/videoUpload')) return 'upload'
+    return 'draft'
+  }
 
-    const getSelectedKey = (pathname) => {
-  if (pathname.startsWith('/dashboard')) return 'home';
-  if (pathname.startsWith('/videoUpload')) return 'upload';
-  return 'draft';
-};
-
-const selectedKey = getSelectedKey(location.pathname);
+  const selectedKey = getSelectedKey(location.pathname)
 
 
   const handleMenuClick = ({ key }) => {
@@ -52,15 +51,18 @@ const selectedKey = getSelectedKey(location.pathname);
     <Sider
       className="dashboard-sider-left"
       width={256}
+      collapsedWidth={80}
+      collapsed={collapsed}
       theme="light"
       trigger={null}
-      collapsible={false}
+      collapsible
     >
       <Menu
         mode="inline"
         selectedKeys={[selectedKey]}
         items={sidebarItems}
         onClick={handleMenuClick}
+        inlineCollapsed={collapsed}
       />
     </Sider>
   )

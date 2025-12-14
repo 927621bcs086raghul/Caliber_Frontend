@@ -6,6 +6,7 @@ import useDebounce from '../../hooks/useDebounce'
 import DashboardHeader from '../dashboard/components/DashboardHeader'
 import '../draftVideo/draftVideo.css'
 import  DraftGrid from  './components/DraftGrid';
+import axios from 'axios';
 
 const socket = io('http://localhost:5000')
 
@@ -34,54 +35,88 @@ const location = useLocation()
       })
     }, [liveVideos, debouncedSearchTerm])
 
+    const loadVideosAndSocket = () => {
+  // Socket connection diagnostics
+  socket.on('connect', () => {
+    console.log('Socket connected:', socket.id);
+  });
 
-  useEffect(() => {
-    // Socket connection diagnostics
-    socket.on('connect', () => {
-      console.log('Socket connected:', socket.id)
+  socket.on('connect_error', (err) => {
+    console.error('Socket connect error:', err);
+  });
+
+  // Initial load of existing videos
+  fetch('http://localhost:5000/api/videos/draftFetch', {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('Initial videos load:', data);
+      if (Array.isArray(data)) {
+        setLiveVideos(data.reverse()); // newest first
+      } else {
+        console.warn('Unexpected videos payload:', data);
+      }
     })
+    .catch((err) => console.error('Failed to load videos', err));
 
-    socket.on('connect_error', (err) => {
-      console.error('Socket connect error:', err)
-    })
+  // Join socket room
+  socket.emit('joinRoom', 'dashboard');
 
-    // 1) Initial load of existing videos (once on mount)
-    fetch('http://localhost:5000/api/videos', {
-      method: 'GET',
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('Initial videos load:', data)
-        if (Array.isArray(data)) {
-          // newest first
-          setLiveVideos(data.reverse())
-        } else {
-          console.warn('Unexpected videos payload:', data)
-        }
-      })
-      .catch((err) => console.error('Failed to load videos', err))
+  const handleVideoUploaded = (video) => {
+    console.log('Received videoUploaded:', video);
+    setLiveVideos((prev) => [video, ...prev]);
+  };
 
-    // 2) Real-time updates via Socket.IO
-    socket.emit('joinRoom', 'dashboard')
+  socket.on('videoUploaded', handleVideoUploaded);
 
-    const handleVideoUploaded = (video) => {
-      console.log('Received videoUploaded:', video)
-      setLiveVideos((prev) => [video, ...prev])
+  // Return cleanup function
+  return () => {
+    socket.off('videoUploaded', handleVideoUploaded);
+    socket.off('connect');
+    socket.off('connect_error');
+  };
+};
+
+
+useEffect(() => {
+  const cleanup = loadVideosAndSocket();
+
+  return () => {
+    cleanup && cleanup();
+  };
+}, []);
+
+
+const handlePublishDraft = async (videoId, formData) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/videos/${videoId}`,
+      {
+        method: 'PATCH',
+        credentials: 'include', // ✅ sends cookies
+        body: formData,         // ✅ FormData (NO headers needed)
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Publish failed');
     }
 
-    socket.on('videoUploaded', handleVideoUploaded)
+    // 🔁 Reload videos after publish
+    loadVideosAndSocket();
 
-    return () => {
-      socket.off('videoUploaded', handleVideoUploaded)
-      socket.off('connect')
-      socket.off('connect_error')
-    }
-  }, [])
+  } catch (error) {
+    console.error('Publish failed:', error.message);
+  }
+};
+
 
   return (
     <div className="dashboard-root">
-         <DraftGrid videos={filteredVideos} />
+         <DraftGrid videos={filteredVideos} onPublishDraft={handlePublishDraft} />
     </div>
   )
 }
