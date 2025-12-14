@@ -127,7 +127,7 @@ function UploadRightColumn({
             className="upload-publish-button"
             onClick={handlePublish}
           >
-            Publish Video
+            Publdsdish Video
           </Button>
 
           <Button

@@ -15,15 +15,26 @@ const sidebarItems = [
     icon: <UploadOutlined />,
     label: 'Upload',
   },
+   {
+    key: 'draft',
+    icon: <draftVideo />,
+    label: 'Drafted video',
+  }
 ]
 
 function AppSidebar() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const selectedKey = location.pathname.startsWith('/videoUpload')
-    ? 'upload'
-    : 'home'
+
+    const getSelectedKey = (pathname) => {
+  if (pathname.startsWith('/dashboard')) return 'home';
+  if (pathname.startsWith('/videoUpload')) return 'upload';
+  return 'draft';
+};
+
+const selectedKey = getSelectedKey(location.pathname);
+
 
   const handleMenuClick = ({ key }) => {
     if (key === 'home') {
@@ -31,6 +42,9 @@ function AppSidebar() {
     }
     if (key === 'upload') {
       navigate('/videoUpload')
+    }
+     if (key === 'draft') {
+      navigate('/draftVideo')
     }
   }
 

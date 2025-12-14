@@ -10,6 +10,7 @@ const Dashboard = lazy(() => import('./authentication/dashboard/Dashboard'))
 const VideoUploadPage = lazy(() => import('./authentication/dashboard/pages/VideoUploadPage'))
 const ProfileDetails = lazy(() => import('./authentication/profileDetails/ProfileDetails'))
 const VideoPlayer = lazy(() => import('./authentication/videoStream/videoPlayer'))
+const DraftVideo = lazy(()=> import('./authentication/draftVideo/draftVideo'));
 function PrivateRoute({ component }) {
   const { isAuthenticated, loading } = useAuth()
 
@@ -59,6 +60,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="videoUpload" element={<VideoUploadPage />} />
             <Route path="profile" element={<ProfileDetails />} />
+            <Route path="draftVideo" element={<DraftVideo  />} />
           </Route>
           <Route
             path="/video/:id"
