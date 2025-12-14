@@ -3,9 +3,10 @@ import {
   CloudUploadOutlined,
   EditOutlined
 } from '@ant-design/icons'
-import { Button, Form, Input, Progress, Typography, Upload } from 'antd'
+import { Button, Form, Input, Progress, Select, Typography, Upload } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { getVideoCategories } from '../../../api/videoApi'
 import VideoPreviewModal from '../../videoPreview/VideoPreviewModal'
 import { resetVideoUploadState, videoUploadRequest } from '../../videoUpload/videoUploadSlice'
 
@@ -19,6 +20,7 @@ function VideoUploadContent() {
   const [thumbnailFile, setThumbnailFile] = useState(null)
   const [previewVisible, setPreviewVisible] = useState(false)
   const [previewUrl, setPreviewUrl] = useState('')
+  const [categories, setCategories] = useState([])
 
   const dispatch = useDispatch()
   const { loading, success } = useSelector((state) => state.videoUpload || {})
@@ -98,6 +100,7 @@ function VideoUploadContent() {
       videoUploadRequest({
         title: values.title,
         description: values.description,
+        categories: values.categories || [],
         videoFile,
         thumbnailFile,
         isDraft: values.isDraft
@@ -114,6 +117,18 @@ function VideoUploadContent() {
       dispatch(resetVideoUploadState())
     }
   }, [success, form, dispatch])
+
+  useEffect(() => {
+    getVideoCategories()
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setCategories(data)
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to load categories', err)
+      })
+  }, [])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -248,6 +263,22 @@ function VideoUploadContent() {
                     className="upload-textarea"
                   />
                 </Form.Item>
+
+                <Form.Item
+                  label="Category"
+                  name="categories"
+                  className="upload-form-item"
+                >
+                  <Select
+                    mode="tags"
+                    allowClear
+                    placeholder="Select one or more categories"
+                    options={categories.map((value) => ({
+                      value,
+                      label: value,
+                    }))}
+                  />
+                </Form.Item>
               </div>
 
               <div className="upload-divider" />
@@ -261,9 +292,21 @@ function VideoUploadContent() {
                 </div>
 
                 <div className="upload-thumbnails-grid">
+                  <Upload
+                    accept="image/png,image/jpeg,image/jpg,image/webp,image/*"
+                    showUploadList={false}
+                    beforeUpload={() => false}
+                    onChange={handleThumbnailChange}
+                  >
+                    <Button type="dashed" className="upload-thumbnail-upload">
+                      <CloudUploadOutlined />
+                      <span>{thumbnailFile ? 'Reupload image' : 'Upload image'}</span>
+                    </Button>
+                  </Upload>
+
                   {/* THUMBNAIL PREVIEW */}
-                  <div className='thumbnail-preview-title'>
-                    {!thumbnailFile && "Preview"}
+                  <div className="thumbnail-preview-title">
+                    {!thumbnailFile && 'Preview'}
                     {thumbnailFile && (
                       <div className="thumbnail-preview">
                         <img
@@ -273,17 +316,6 @@ function VideoUploadContent() {
                       </div>
                     )}
                   </div>
-                  <Upload
-                    accept="image/png,image/jpeg,image/jpg,image/webp,image/*"
-                    showUploadList={false}
-                    beforeUpload={() => false}
-                    onChange={handleThumbnailChange}
-                  >
-                    <Button type="dashed" className="upload-thumbnail-upload">
-                      <CloudUploadOutlined />
-                      <span>Upload image</span>
-                    </Button>
-                  </Upload>
                 </div>
               </div>
 

@@ -3,9 +3,9 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import AppSidebar from '../../components/AppSidebar'
 import useDebounce from '../../hooks/useDebounce'
+import '../videoUpload/VideoUpload.css'
 import DashboardHeader from './components/DashboardHeader'
 import './Dashboard.css'
-import '../videoUpload/VideoUpload.css'
 
 // Single shared Socket.IO connection for the dashboard
 const socket = io('http://localhost:5000')
