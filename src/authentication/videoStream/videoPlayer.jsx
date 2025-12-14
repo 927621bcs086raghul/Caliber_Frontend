@@ -159,7 +159,7 @@ function VideoPlayer() {
 
   return (
     <>
-      <DashboardHeader />
+      <DashboardHeader hideSearch showDashboardLink />
       <div className="watch-page">
         <div className="watch-main">
           <div 

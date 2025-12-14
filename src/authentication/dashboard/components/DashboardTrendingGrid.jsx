@@ -23,7 +23,6 @@ function DashboardTrendingGrid({ videos = [] }) {
             <article
               key={video.id}
               className="dashboard-card"
-              onClick={() => handleCardClick(video)}
               style={{ cursor: 'pointer' }}
             >
               <div

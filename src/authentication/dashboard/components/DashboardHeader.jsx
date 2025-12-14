@@ -6,9 +6,9 @@ import UserProfilePopover from '../../../components/UserProfilePopover'
 import { logoutRequest } from '../../logout/logoutSlice'
 import '../Dashboard.css'
 
-const { Title } = Typography
+const { Title, Link } = Typography
 
-function DashboardHeader({ searchTerm, onSearchChange }) {
+function DashboardHeader({ searchTerm, onSearchChange, hideSearch = false, showDashboardLink = false }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -40,7 +40,7 @@ function DashboardHeader({ searchTerm, onSearchChange }) {
           </Title>
         </div>
 
-        {!hideSearchBar && (
+        {!hideSearch && (
           <div className="dashboard-search-wrapper">
             <Input
               className="dashboard-search-input"
@@ -54,13 +54,22 @@ function DashboardHeader({ searchTerm, onSearchChange }) {
       </div>
 
       <div className="dashboard-header-right">
-        <Button
-          type="text"
-          icon={<SearchOutlined />}
-          className="dashboard-icon-button dashboard-icon-button-mobile"
-        />
+        {showDashboardLink && (
+          <Link
+            className="dashboard-link-button"
+            onClick={() => navigate('/dashboard')}
+          >
+            Dashboard
+          </Link>
+        )}
 
-
+        {!hideSearch && (
+          <Button
+            type="text"
+            icon={<SearchOutlined />}
+            className="dashboard-icon-button dashboard-icon-button-mobile"
+          />
+        )}
 
         <UserProfilePopover
           size={40}

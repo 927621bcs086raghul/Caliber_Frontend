@@ -1,12 +1,13 @@
 import apiClient from './axiosConfig'
 
-export const uploadVideo = async ({ title, description, videoFile, thumbnailFile }) => {
+export const uploadVideo = async ({ title, description, videoFile, thumbnailFile,isDraft }) => {
   const formData = new FormData()
 
   if (title) formData.append('title', title)
   if (description) formData.append('description', description)
   if (videoFile) formData.append('video', videoFile)
   if (thumbnailFile) formData.append('thumbnail', thumbnailFile)
+    if (isDraft) formData.append('isDraft', isDraft)
 
   const response = await apiClient.post('/videos', formData, {
     headers: {

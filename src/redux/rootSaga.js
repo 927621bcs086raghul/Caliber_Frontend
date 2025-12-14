@@ -67,6 +67,7 @@ function* handleLogin(action) {
 }
 
 function* handleVideoUpload(action) {
+  console.log(action.payload)
   try {
     const data = yield call(uploadVideo, action.payload)
     yield put(videoUploadSuccess(data))
@@ -78,6 +79,8 @@ function* handleVideoUpload(action) {
     message.error(msg)
   }
 }
+
+
 
 function* handleLogout() {
   try {
